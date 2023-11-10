@@ -20,3 +20,11 @@ F
 src/App.css,a/a/aa7165aefcf8ee3d73539e99ab007daf1aa18d8d
 A
 public/index.html,f/4/f43ecdf8d666ee908aacce037b4cd72159e4741b
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
+:
+
+.prettierc,c/2/c20346add228c85f7dc4e42eca98a841e5064e2e
+;
+.prettierrc,2/0/20137a9e94744624390b6748bc96df5ca1579b71
