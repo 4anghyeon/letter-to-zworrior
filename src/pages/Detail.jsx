@@ -32,20 +32,20 @@ const Header = styled.header`
   }
   grid-area: header;
   text-align: center;
+  color: white;
 `;
 
 const LetterListContainer = styled.section`
   grid-area: main;
-  display: grid;
-  grid-template-columns: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
-  grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   padding: 0 10px;
   overflow: auto;
 `;
 
-const Detail = ({letters, setLetters}) => {
+const Detail = ({letters, setShowModal, setModalOption}) => {
   const params = useParams();
   const nameRef = useRef(null);
   const {id} = params;
@@ -84,8 +84,6 @@ const Detail = ({letters, setLetters}) => {
     };
   }, []);
 
-  console.log(letters);
-
   return (
     <Container>
       <Img img={image}></Img>
@@ -98,7 +96,7 @@ const Detail = ({letters, setLetters}) => {
         {letters
           .filter(letter => letter.to === name)
           .map(letter => (
-            <Letter key={letter.id} letter={letter} />
+            <Letter key={letter.id} letter={letter} setShowModal={setShowModal} setModalOption={setModalOption} />
           ))}
       </LetterListContainer>
     </Container>

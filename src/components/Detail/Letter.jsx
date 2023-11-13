@@ -1,53 +1,99 @@
 import React from 'react';
 import styled from 'styled-components';
+import envelopeCloseImg from '../../assets/img/envelope-close.png';
+import Modal from '../Common/Modal';
+import {ModalOption} from '../../shared/common';
 
 const LetterContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  flex-direction: column;
   cursor: pointer;
   & span {
     font-style: italic;
   }
+  & div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: white;
+    font-weight: bold;
+  }
+  & div span {
+    text-align: end;
+    margin-right: 50px;
+  }
+  border: 1px solid white;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
 `;
 
-const Envelope = styled.div`
-  background-image: url(${props => props.img});
-  background-size: cover;
-  background-position: center;
-  width: 100px;
-  height: 110px;
-  margin: 10px;
-  position: relative;
+const ProfileImg = styled.img`
+  height: 100px;
+  margin-right: 50px;
+`;
 
-  &:hover {
-    background-image: url(${props => props.hover});
+const LetterContent = styled.article`
+  margin-bottom: 10px;
+  padding: 10px 10px;
+`;
 
-    &::after {
-      position: absolute;
-      content: '${props => props.content}';
-      top: 25%;
-      left: 25%;
-      width: 50%;
-      height: 25%;
-      font-size: 10px;
-      white-space: pre-wrap;
-    }
+const LetterModalContent = styled.article`
+  padding: 30px;
+  font-size: 25px;
+  line-height: 50px;
+  height: 100%;
+  & span {
+    border-bottom: 1px solid lightgrey;
   }
 `;
 
-const Letter = ({letter}) => {
-  const envelopeCloseImg = require('assets/img/envelope-close.png');
-  const envelopeOpenImg = require('assets/img/envelope-open.png');
-  const {content} = letter;
+const LetterModalFooter = styled.footer`
+  margin: 10px 20px;
+  text-align: end;
+  font-size: 25px;
+`;
 
-  let shortContent = content.length > 20 ? content.substring(0, 15).concat('\\A   ...더 보기') : content;
+const Letter = ({letter, setShowModal, setModalOption}) => {
+  const {content} = letter;
+  const envelopeCloseImg = require('assets/img/envelope-close.png');
+
+  let shortContent = content.length > 50 ? content.substring(0, 50).concat('...') : content;
+
+  const handleClickLetter = () => {
+    setShowModal(true);
+    setModalOption(
+      new ModalOption(
+        true,
+        (
+          <LetterModalContent>
+            <span>{content}</span>
+          </LetterModalContent>
+        ),
+        (
+          <LetterModalFooter>
+            {letter.date} From. {letter.from}
+          </LetterModalFooter>
+        ),
+        {
+          background: 'lightYellow',
+        },
+      ),
+    );
+  };
 
   return (
-    <LetterContainer>
-      <Envelope img={envelopeCloseImg} hover={envelopeOpenImg} content={shortContent}></Envelope>
-      <span>From. {letter.from}</span>
+    <LetterContainer onClick={handleClickLetter}>
+      <ProfileImg src={envelopeCloseImg} />
+      <div>
+        <LetterContent>{shortContent}</LetterContent>
+        <span>
+          {letter.date} From. {letter.from}
+        </span>
+      </div>
     </LetterContainer>
   );
 };

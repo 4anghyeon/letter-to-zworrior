@@ -23,3 +23,7 @@ P
  src/components/Layout/Layout.jsx,4/c/4c599cb6831e36c9be52c63d8b0c7c681e9db4fd
 B
 src/pages/Home.jsx,4/3/430200dcc19df010a7afe234d14af8f3c4a0b33b
+O
+src/components/Common/Modal.jsx,9/d/9d9f2c3c619dc7faa8981e44ffa98937e7f4e1ea
+D
+src/shared/common.js,6/2/62c2c0af504b30da7a915156cce1204daa227e77
