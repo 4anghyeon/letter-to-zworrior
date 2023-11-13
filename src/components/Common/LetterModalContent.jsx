@@ -29,14 +29,12 @@ const LetterModalContent = ({content, isEdit}) => {
   const textAreaRef = useRef(null);
 
   useEffect(() => {
-    console.log(isEdit);
-
     textAreaRef?.current?.focus();
   }, [isEdit]);
   return (
     <Content>
-      <span id="content">{content}</span>
-      {isEdit && <textarea defaultValue={content} ref={textAreaRef}></textarea>}
+      {!isEdit && <span>{content}</span>}
+      {isEdit && <textarea id="content" defaultValue={content} ref={textAreaRef}></textarea>}
     </Content>
   );
 };

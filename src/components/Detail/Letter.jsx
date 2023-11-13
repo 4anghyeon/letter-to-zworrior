@@ -1,7 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import envelopeCloseImg from '../../assets/img/envelope-close.png';
-import Modal from '../Common/Modal';
 import {AlertOption, ModalOption} from '../../shared/common';
 import LetterModalContent from '../Common/LetterModalContent';
 
@@ -108,16 +106,12 @@ const DeletePopup = ({handleClickYes, handleClickNo}) => {
   );
 };
 
-const ModalFooter = ({letter, handleClickEdit, handleClickDelete, handleClickComplete}) => {
-  const [isEdit, setIsEdit] = useState(false);
-
+const ModalFooter = ({letter, handleClickEdit, handleClickDelete, handleClickComplete, isEdit}) => {
   const onClickEdit = () => {
-    setIsEdit(true);
     handleClickEdit();
   };
 
   const onClickComplete = () => {
-    setIsEdit(false);
     handleClickComplete();
   };
 
@@ -151,6 +145,28 @@ const Letter = ({letter, setLetters, setShowModal, setModalOption, setShowAlert,
 
   let shortContent = content.length > MAX_LENGTH ? content.substring(0, MAX_LENGTH).concat('...') : content;
 
+  // 모달에 들어가야할 옵션을 바꿔줌.. 그래야 모달 리렌더링이 일어남
+  const changeModalOption = (content, isEdit) => {
+    setModalOption(
+      new ModalOption(
+        true,
+        <LetterModalContent content={content} isEdit={isEdit}></LetterModalContent>,
+        (
+          <ModalFooter
+            letter={letter}
+            handleClickDelete={handleClickDelete}
+            handleClickEdit={handleClickEdit}
+            handleClickComplete={handleClickComplete}
+            isEdit={isEdit}
+          ></ModalFooter>
+        ),
+        {
+          background: '#fff9db',
+        },
+      ),
+    );
+  };
+
   // 삭제 버튼을 누를 경우 동작하는 이벤트
   const handleClickDelete = () => {
     const handleClick = () => {
@@ -180,21 +196,12 @@ const Letter = ({letter, setLetters, setShowModal, setModalOption, setShowAlert,
 
   // 수정 버튼 누를 경우 동작하는 이벤트
   const handleClickEdit = () => {
-    const $content = document.getElementById('content');
-    const $textarea = document.createElement('textarea');
-    $textarea.id = 'content';
-    $textarea.value = content;
-    $content.after($textarea);
-
-    $content.remove();
+    changeModalOption(content, true);
   };
 
   // 완료 버튼 누를 경우 동작하는 이벤트
   const handleClickComplete = () => {
     const $textarea = document.getElementById('content');
-    const $content = document.createElement('span');
-    $content.id = 'content';
-    $content.innerText = $textarea.value;
 
     setLetters(prev => {
       let findIndex = prev.findIndex(v => v.id === letter.id);
@@ -203,35 +210,15 @@ const Letter = ({letter, setLetters, setShowModal, setModalOption, setShowAlert,
       newLetters.splice(findIndex, 1, newLetter);
       return newLetters;
     });
-
-    // 여기서 content를 다시 set해줘야 함
+    changeModalOption($textarea.value, false);
     content = $textarea.value;
-
-    $textarea.after($content);
-    $textarea.remove();
   };
 
   // 편지 Row를 클릭할 경우
   // 모달 창 OPEN, EventBinding
   const handleClickLetter = () => {
     setShowModal(true);
-    setModalOption(
-      new ModalOption(
-        true,
-        <LetterModalContent content={content}></LetterModalContent>,
-        (
-          <ModalFooter
-            letter={letter}
-            handleClickDelete={handleClickDelete}
-            handleClickEdit={handleClickEdit}
-            handleClickComplete={handleClickComplete}
-          ></ModalFooter>
-        ),
-        {
-          background: '#fff9db',
-        },
-      ),
-    );
+    changeModalOption(content, false);
   };
 
   return (
