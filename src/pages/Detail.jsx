@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {warriors} from '../shared/data';
 import styled from 'styled-components';
@@ -65,6 +65,32 @@ const WriteButton = styled.button`
   }
 `;
 
+const ModalButtonContainer = styled.footer`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 20px;
+  font-size: 25px;
+
+  & div {
+    display: flex;
+    align-items: center;
+  }
+
+  & button {
+    border-radius: 5px;
+  }
+
+  & input {
+    border: none;
+    height: 30px;
+    margin-left: 20px;
+    background: transparent;
+    border-bottom: 1px solid black;
+    font-size: 20px;
+  }
+`;
+
 const ModalEnrollButton = styled.button`
   font-size: 25px;
   padding: 10px;
@@ -77,6 +103,7 @@ const ModalEnrollButton = styled.button`
 const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOption, setShowAlert}) => {
   const params = useParams();
   const nameRef = useRef(null);
+  const [fromName, setFromName] = useState('');
 
   const {id} = params;
 
@@ -120,7 +147,15 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
       new ModalOption(
         true,
         <LetterModalContent content="" isEdit={true}></LetterModalContent>,
-        <ModalEnrollButton>등록</ModalEnrollButton>,
+        (
+          <ModalButtonContainer>
+            <ModalEnrollButton>등록</ModalEnrollButton>
+            <div>
+              <label htmlFor="fromName">From.</label>
+              <input id="fromName" value={fromName} />
+            </div>
+          </ModalButtonContainer>
+        ),
         {
           background: '#fff9db',
         },

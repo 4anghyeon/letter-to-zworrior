@@ -39,3 +39,9 @@ U
 src/index.js,f/9/f900edc44cb929c2267a16100a32851f6d5b477d
 D
 src/shared/helper.js,e/f/ef1face489f82efa322ffb4779bc643e5cbe26ea
+A
+src/setupTests.js,b/7/b7e8d8f421068b8d51c89805d2035e747be2ff17
+=
+src/index.css,c/5/c5d38a62d1faae90a2acaa34b79a7ef365c917e4
+=
+src/reset.css,2/5/25a3ca7072ec2a5e8c55b4253ba62ab41bdf1c89

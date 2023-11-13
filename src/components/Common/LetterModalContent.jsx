@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import styled from 'styled-components';
 
 const Content = styled.article`
@@ -26,10 +26,17 @@ const Content = styled.article`
 `;
 
 const LetterModalContent = ({content, isEdit}) => {
+  const textAreaRef = useRef(null);
+
+  useEffect(() => {
+    console.log(isEdit);
+
+    textAreaRef?.current?.focus();
+  }, [isEdit]);
   return (
     <Content>
       <span id="content">{content}</span>
-      {isEdit && <textarea id="contentTextarea" defaultValue={content}></textarea>}
+      {isEdit && <textarea defaultValue={content} ref={textAreaRef}></textarea>}
     </Content>
   );
 };
