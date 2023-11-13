@@ -43,10 +43,37 @@ const AlertContainer = styled.section`
   }
 `;
 
+const MessageDiv = styled.div`
+  display: flex;
+  & span {
+    margin-right: 10px;
+  }
+`;
+
+const renderByType = ({type, contentElem}) => {
+  switch (type) {
+    case 'warn':
+      return (
+        <MessageDiv>
+          <span>⚠️</span>️{contentElem}
+        </MessageDiv>
+      );
+    case 'success':
+      return (
+        <MessageDiv>
+          <span>✅ </span>
+          {contentElem}
+        </MessageDiv>
+      );
+    default:
+      return <MessageDiv>{contentElem}</MessageDiv>;
+  }
+};
+
 const Alert = ({showAlert, alertOption}) => {
   return (
     <AlertContainer show={showAlert.toString()} style={alertOption.styleOption}>
-      {alertOption.contentElem}
+      {renderByType(alertOption)}
     </AlertContainer>
   );
 };

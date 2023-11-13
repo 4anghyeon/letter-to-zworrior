@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {warriors} from '../shared/data';
+import {Letter, warriors} from '../shared/data';
 import styled from 'styled-components';
-import Letter from '../components/Detail/Letter';
-import {ModalOption} from '../shared/common';
+import LetterRow from '../components/Detail/LetterRow';
+import {AlertOption, ModalOption} from '../shared/common';
 import LetterModalContent from '../components/Common/LetterModalContent';
 
 const Container = styled.div`
@@ -103,7 +103,7 @@ const ModalEnrollButton = styled.button`
 const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOption, setShowAlert}) => {
   const params = useParams();
   const nameRef = useRef(null);
-  const [fromName, setFromName] = useState('');
+  const fromNameRef = useRef(null);
 
   const {id} = params;
 
@@ -142,6 +142,22 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
     };
   }, []);
 
+  const onClickEnrollButton = () => {
+    const contentValue = document.getElementById('content').value;
+    let newLetters = [...letters];
+    newLetters.push(new Letter(find.name, fromNameRef.current.value, contentValue));
+    setLetters(newLetters);
+    setShowModal(false);
+
+    setTimeout(() => {
+      setAlertOption(new AlertOption(<div>등록 되었습니다.</div>, {}, 'success'));
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 800);
+    });
+  };
+
   const onClickWriteButton = () => {
     setModalOption(
       new ModalOption(
@@ -149,10 +165,10 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
         <LetterModalContent content="" isEdit={true}></LetterModalContent>,
         (
           <ModalButtonContainer>
-            <ModalEnrollButton>등록</ModalEnrollButton>
+            <ModalEnrollButton onClick={onClickEnrollButton}>등록</ModalEnrollButton>
             <div>
               <label htmlFor="fromName">From.</label>
-              <input id="fromName" value={fromName} />
+              <input id="fromName" ref={fromNameRef} />
             </div>
           </ModalButtonContainer>
         ),
@@ -177,7 +193,7 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
         {letters
           .filter(letter => letter.to === name)
           .map(letter => (
-            <Letter
+            <LetterRow
               key={letter.id}
               letter={letter}
               setLetters={setLetters}

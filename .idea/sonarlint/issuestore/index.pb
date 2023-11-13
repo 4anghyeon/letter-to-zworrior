@@ -45,3 +45,5 @@ A
 src/index.css,c/5/c5d38a62d1faae90a2acaa34b79a7ef365c917e4
 =
 src/reset.css,2/5/25a3ca7072ec2a5e8c55b4253ba62ab41bdf1c89
+S
+#src/components/Detail/LetterRow.jsx,1/b/1be60e0f9501ebf169cf38c3971d427d0ebf0428

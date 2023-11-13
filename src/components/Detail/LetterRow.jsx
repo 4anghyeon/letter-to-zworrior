@@ -138,7 +138,7 @@ const ModalFooter = ({letter, handleClickEdit, handleClickDelete, handleClickCom
   );
 };
 
-const Letter = ({letter, setLetters, setShowModal, setModalOption, setShowAlert, setAlertOption}) => {
+const LetterRow = ({letter, setLetters, setShowModal, setModalOption, setShowAlert, setAlertOption}) => {
   let {content} = letter;
 
   const envelopeCloseImg = require('assets/img/envelope-close.png');
@@ -180,7 +180,7 @@ const Letter = ({letter, setLetters, setShowModal, setModalOption, setShowAlert,
       setShowAlert(false);
 
       setTimeout(() => {
-        setAlertOption(new AlertOption(<div>삭제 되었습니다.</div>, {}));
+        setAlertOption(new AlertOption(<div>삭제 되었습니다.</div>, {}, 'success'));
         setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
@@ -234,4 +234,4 @@ const Letter = ({letter, setLetters, setShowModal, setModalOption, setShowAlert,
   );
 };
 
-export default Letter;
+export default LetterRow;

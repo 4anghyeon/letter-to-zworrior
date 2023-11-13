@@ -8,8 +8,9 @@ export class ModalOption {
 }
 
 export class AlertOption {
-  constructor(contentElem, styleOption) {
+  constructor(contentElem, styleOption, type) {
     this.contentElem = contentElem;
     this.styleOption = styleOption;
+    this.type = type;
   }
 }
