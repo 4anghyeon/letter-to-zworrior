@@ -2,15 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ModalShadow = styled.div`
-  display: ${props => (props.show === 'true' ? 'flex' : 'none')};
+  display: ${({show}) => (show === 'true' ? 'flex' : 'none')};
   height: 100vh;
   width: 100vw;
   position: absolute;
   z-index: 10;
+  background: rgba(211, 211, 211, 0.2);
 `;
 
 const ModalContainer = styled.section`
-  display: ${props => (props.show === 'true' ? 'flex' : 'none')};
+  display: ${({show}) => (show === 'true' ? 'flex' : 'none')};
   flex-direction: column;
   position: fixed;
   width: 50vw;
@@ -20,15 +21,23 @@ const ModalContainer = styled.section`
   border: 1px solid white;
   z-index: 100;
   border-radius: 10px;
-  background: ${props => (props.styleOption?.background ? props.styleOption.background : 'white')};
+  background: ${props => (props.style?.background ? props.style.background : 'white')};
+  box-shadow:
+    rgba(255, 255, 255, 1) 0px 6px 12px -2px,
+    rgba(255, 255, 255, 1) 0px 3px 7px -3px;
 `;
 
 const ModalHeader = styled.header`
-  text-align: end;
-
+  display: flex;
+  justify-content: end;
   & button {
+    display: flex;
+    align-items: center;
     margin: 10px;
     padding: 10px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
     border-radius: 5px;
     color: red;
     border: none;
@@ -44,7 +53,7 @@ const Modal = ({showModal, setShowModal, modalOption}) => {
 
   return (
     <>
-      <ModalContainer show={showModal.toString()} styleOption={modalOption.styleOption}>
+      <ModalContainer show={showModal.toString()} style={modalOption.styleOption}>
         {modalOption.showHeader && (
           <ModalHeader>
             <button onClick={hideModal}>X</button>

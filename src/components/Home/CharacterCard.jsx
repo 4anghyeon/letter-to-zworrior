@@ -13,7 +13,7 @@ const Card = styled.div`
 const Img = styled.div`
   width: 100%;
   height: 100%;
-  background-image: url(${props => props.img});
+  background-image: url(${({img}) => img});
   background-position-x: center;
   background-size: cover;
   transition: ease-in-out 0.5s;

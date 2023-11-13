@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import envelopeCloseImg from '../../assets/img/envelope-close.png';
 import Modal from '../Common/Modal';
-import {ModalOption} from '../../shared/common';
+import {AlertOption, ModalOption} from '../../shared/common';
+
+const MAX_LENGTH = 50;
 
 const LetterContainer = styled.div`
   display: flex;
@@ -46,8 +48,22 @@ const LetterModalContent = styled.article`
   font-size: 25px;
   line-height: 50px;
   height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
   & span {
     border-bottom: 1px solid lightgrey;
+  }
+
+  & textarea {
+    height: 100%;
+    width: 100%;
+    line-height: 4ch;
+    background-image: linear-gradient(transparent, transparent calc(4ch - 1px), #adb5bd 0px);
+    background-color: transparent;
+    background-size: 100% 4ch;
+    font-size: 25px;
+    border: none;
+    resize: none;
   }
 `;
 
@@ -55,14 +71,169 @@ const LetterModalFooter = styled.footer`
   margin: 10px 20px;
   text-align: end;
   font-size: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
-const Letter = ({letter, setShowModal, setModalOption}) => {
-  const {content} = letter;
+const ModalButton = styled.button`
+  width: 70px;
+  height: 40px;
+  background: ${({background}) => background};
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  font-size: 20px;
+`;
+
+const AlertContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  & h1 {
+    font-size: 25px;
+    margin-bottom: 30px;
+  }
+
+  & div {
+    display: flex;
+    justify-content: space-around;
+  }
+`;
+
+const YesNoButton = styled.button`
+  width: 100px;
+  height: 50px;
+  font-size: 20px;
+  border: none;
+  background: ${({background}) => background};
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+`;
+
+const DeletePopup = ({handleClickYes, handleClickNo}) => {
+  return (
+    <AlertContainer>
+      <h1>해당 메시지를 삭제하시겠습니까?</h1>
+      <div>
+        <YesNoButton onClick={handleClickYes} background={'#228be6'}>
+          네
+        </YesNoButton>
+        <YesNoButton onClick={handleClickNo} background={'#f03e3e'}>
+          취소
+        </YesNoButton>
+      </div>
+    </AlertContainer>
+  );
+};
+
+const ModalFooter = ({letter, handleClickEdit, handleClickDelete, handleClickComplete}) => {
+  const [isEdit, setIsEdit] = useState(false);
+  console.log('footer', letter);
+
+  const onClickEdit = () => {
+    setIsEdit(true);
+    handleClickEdit();
+  };
+
+  const onClickComplete = () => {
+    setIsEdit(false);
+    handleClickComplete();
+  };
+
+  return (
+    <LetterModalFooter>
+      <div>
+        {!isEdit ? (
+          <ModalButton onClick={onClickEdit} background={'#69db7c'}>
+            수정
+          </ModalButton>
+        ) : (
+          <ModalButton onClick={onClickComplete} background={'#228be6'}>
+            완료
+          </ModalButton>
+        )}
+        {!isEdit && (
+          <ModalButton onClick={handleClickDelete} background={'#f03e3e'}>
+            삭제
+          </ModalButton>
+        )}
+      </div>
+      {letter.date} From. {letter.from}
+    </LetterModalFooter>
+  );
+};
+
+const Letter = ({letter, setLetters, setShowModal, setModalOption, setShowAlert, setAlertOption}) => {
+  let {content} = letter;
+
   const envelopeCloseImg = require('assets/img/envelope-close.png');
 
-  let shortContent = content.length > 50 ? content.substring(0, 50).concat('...') : content;
+  let shortContent = content.length > MAX_LENGTH ? content.substring(0, MAX_LENGTH).concat('...') : content;
 
+  const handleClickDelete = () => {
+    const handleClick = () => {
+      setLetters(prev => {
+        let findIndex = prev.findIndex(v => v.id === letter.id);
+        let newLetters = [...prev];
+        newLetters.splice(findIndex, 1);
+        return newLetters;
+      });
+      setShowModal(false);
+      setShowAlert(false);
+
+      setTimeout(() => {
+        setAlertOption(new AlertOption(<div>삭제 되었습니다.</div>, {}));
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 800);
+      });
+    };
+
+    setAlertOption(
+      new AlertOption(<DeletePopup handleClickYes={handleClick} handleClickNo={() => setShowAlert(false)} />, {}),
+    );
+    setShowAlert(true);
+  };
+  // 수정 버튼 누를 경우 동작하는 이벤트
+  const handleClickEdit = () => {
+    const $content = document.getElementById('content');
+    const $textarea = document.createElement('textarea');
+    $textarea.id = 'content';
+    $textarea.value = content;
+    $content.after($textarea);
+
+    $content.remove();
+  };
+
+  // 완료 버튼 누를 경우 동작하는 이벤트
+  const handleClickComplete = () => {
+    const $textarea = document.getElementById('content');
+    const $content = document.createElement('span');
+    $content.id = 'content';
+    $content.innerText = $textarea.value;
+
+    setLetters(prev => {
+      let findIndex = prev.findIndex(v => v.id === letter.id);
+      let newLetter = {...prev[findIndex], ...{content: $textarea.value}};
+      let newLetters = [...prev];
+      newLetters.splice(findIndex, 1, newLetter);
+      return newLetters;
+    });
+
+    // 여기서 content를 다시 set해줘야 함
+    content = $textarea.value;
+
+    $textarea.after($content);
+    $textarea.remove();
+  };
+
+  // 편지 Row를 클릭할 경우
+  // 모달 창 OPEN, EventBinding
   const handleClickLetter = () => {
     setShowModal(true);
     setModalOption(
@@ -70,16 +241,19 @@ const Letter = ({letter, setShowModal, setModalOption}) => {
         true,
         (
           <LetterModalContent>
-            <span>{content}</span>
+            <span id="content">{content}</span>
           </LetterModalContent>
         ),
         (
-          <LetterModalFooter>
-            {letter.date} From. {letter.from}
-          </LetterModalFooter>
+          <ModalFooter
+            letter={letter}
+            handleClickDelete={handleClickDelete}
+            handleClickEdit={handleClickEdit}
+            handleClickComplete={handleClickComplete}
+          ></ModalFooter>
         ),
         {
-          background: 'lightYellow',
+          background: '#fff9db',
         },
       ),
     );

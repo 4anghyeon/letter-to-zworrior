@@ -45,7 +45,7 @@ const LetterListContainer = styled.section`
   overflow: auto;
 `;
 
-const Detail = ({letters, setShowModal, setModalOption}) => {
+const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOption, setShowAlert}) => {
   const params = useParams();
   const nameRef = useRef(null);
   const {id} = params;
@@ -96,7 +96,15 @@ const Detail = ({letters, setShowModal, setModalOption}) => {
         {letters
           .filter(letter => letter.to === name)
           .map(letter => (
-            <Letter key={letter.id} letter={letter} setShowModal={setShowModal} setModalOption={setModalOption} />
+            <Letter
+              key={letter.id}
+              letter={letter}
+              setLetters={setLetters}
+              setShowModal={setShowModal}
+              setModalOption={setModalOption}
+              setShowAlert={setShowAlert}
+              setAlertOption={setAlertOption}
+            />
           ))}
       </LetterListContainer>
     </Container>

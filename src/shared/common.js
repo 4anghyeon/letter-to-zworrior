@@ -6,3 +6,10 @@ export class ModalOption {
     this.styleOption = styleOption;
   }
 }
+
+export class AlertOption {
+  constructor(contentElem, styleOption) {
+    this.contentElem = contentElem;
+    this.styleOption = styleOption;
+  }
+}
