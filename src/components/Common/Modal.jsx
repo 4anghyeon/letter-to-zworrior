@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {ModalOption} from '../../shared/common';
 
 const ModalShadow = styled.div`
   display: ${({show}) => (show === 'true' ? 'flex' : 'none')};
@@ -38,7 +39,7 @@ const ModalHeader = styled.header`
     width: 30px;
     height: 30px;
     text-align: center;
-    border-radius: 5px;
+    border-radius: 15px;
     color: red;
     border: none;
     background: orange;
@@ -46,9 +47,10 @@ const ModalHeader = styled.header`
   }
 `;
 
-const Modal = ({showModal, setShowModal, modalOption}) => {
+const Modal = ({showModal, setShowModal, modalOption, setModalOption}) => {
   const hideModal = () => {
     setShowModal(false);
+    setModalOption(new ModalOption());
   };
 
   return (

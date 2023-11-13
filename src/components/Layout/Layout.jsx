@@ -16,10 +16,15 @@ const Content = styled.section`
   height: calc(100% - 100px); // 100% - (header(px) + footer(px))
 `;
 
-const Layout = ({showModal, setShowModal, modalOption, showAlert, alertOption}) => {
+const Layout = ({showModal, setShowModal, modalOption, setModalOption, showAlert, alertOption}) => {
   return (
     <Main>
-      <Modal showModal={showModal} setShowModal={setShowModal} modalOption={modalOption} />
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        modalOption={modalOption}
+        setModalOption={setModalOption}
+      />
       <Alert showAlert={showAlert} alertOption={alertOption} />
       <Header />
       <Content>

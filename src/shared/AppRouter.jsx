@@ -7,12 +7,14 @@ import {initLetters} from './data';
 import {AlertOption, ModalOption} from './common';
 
 const AppRouter = () => {
-  const [letters, setLetters] = useState(initLetters);
+  const data = localStorage.getItem('letters');
+  const [letters, setLetters] = useState(JSON.parse(data) || initLetters);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [modalOption, setModalOption] = useState(new ModalOption());
+  const [modalOption, setModalOption] = useState({});
   const [alertOption, setAlertOption] = useState(new AlertOption());
 
+  localStorage.setItem('letters', JSON.stringify(letters));
   return (
     <BrowserRouter>
       <Routes>
@@ -25,6 +27,7 @@ const AppRouter = () => {
               modalOption={modalOption}
               showAlert={showAlert}
               alertOption={alertOption}
+              setModalOption={setModalOption}
             />
           }
         >

@@ -3,6 +3,8 @@ import {useParams} from 'react-router-dom';
 import {warriors} from '../shared/data';
 import styled from 'styled-components';
 import Letter from '../components/Detail/Letter';
+import {ModalOption} from '../shared/common';
+import LetterModalContent from '../components/Common/LetterModalContent';
 
 const Container = styled.div`
   width: 100%;
@@ -43,11 +45,39 @@ const LetterListContainer = styled.section`
   height: 100%;
   padding: 0 10px;
   overflow: auto;
+  position: relative;
+`;
+
+const WriteButton = styled.button`
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+  bottom: 0;
+  right: 0;
+  background: rgba(211, 211, 211, 0.5);
+  border: none;
+  border-radius: 50px;
+  margin: 0 40px 60px 0;
+  cursor: pointer;
+  &:hover {
+    background: rgba(211, 211, 211, 0.9);
+  }
+`;
+
+const ModalEnrollButton = styled.button`
+  font-size: 25px;
+  padding: 10px;
+  border: none;
+  background: #37b24d;
+  color: white;
+  cursor: pointer;
 `;
 
 const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOption, setShowAlert}) => {
   const params = useParams();
   const nameRef = useRef(null);
+
   const {id} = params;
 
   const find = warriors.find(d => +d.id === +id);
@@ -56,6 +86,7 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
 
   let timeoutIds = [];
 
+  // 글자 하나씩 표시
   useEffect(() => {
     nameRef.current.innerText = '';
     (async () => {
@@ -84,6 +115,21 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
     };
   }, []);
 
+  const onClickWriteButton = () => {
+    setModalOption(
+      new ModalOption(
+        true,
+        <LetterModalContent content="" isEdit={true}></LetterModalContent>,
+        <ModalEnrollButton>등록</ModalEnrollButton>,
+        {
+          background: '#fff9db',
+        },
+      ),
+    );
+
+    setShowModal(true);
+  };
+
   return (
     <Container>
       <Img img={image}></Img>
@@ -106,6 +152,7 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
               setAlertOption={setAlertOption}
             />
           ))}
+        <WriteButton onClick={onClickWriteButton}>📝</WriteButton>
       </LetterListContainer>
     </Container>
   );

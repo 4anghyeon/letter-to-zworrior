@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import envelopeCloseImg from '../../assets/img/envelope-close.png';
 import Modal from '../Common/Modal';
 import {AlertOption, ModalOption} from '../../shared/common';
+import LetterModalContent from '../Common/LetterModalContent';
 
 const MAX_LENGTH = 50;
 
@@ -43,30 +44,6 @@ const LetterContent = styled.article`
   padding: 10px 10px;
 `;
 
-const LetterModalContent = styled.article`
-  padding: 30px;
-  font-size: 25px;
-  line-height: 50px;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  & span {
-    border-bottom: 1px solid lightgrey;
-  }
-
-  & textarea {
-    height: 100%;
-    width: 100%;
-    line-height: 4ch;
-    background-image: linear-gradient(transparent, transparent calc(4ch - 1px), #adb5bd 0px);
-    background-color: transparent;
-    background-size: 100% 4ch;
-    font-size: 25px;
-    border: none;
-    resize: none;
-  }
-`;
-
 const LetterModalFooter = styled.footer`
   margin: 10px 20px;
   text-align: end;
@@ -86,6 +63,7 @@ const ModalButton = styled.button`
   padding: 10px;
   color: white;
   font-size: 20px;
+  border-radius: 5px;
 `;
 
 const AlertContainer = styled.div`
@@ -132,7 +110,6 @@ const DeletePopup = ({handleClickYes, handleClickNo}) => {
 
 const ModalFooter = ({letter, handleClickEdit, handleClickDelete, handleClickComplete}) => {
   const [isEdit, setIsEdit] = useState(false);
-  console.log('footer', letter);
 
   const onClickEdit = () => {
     setIsEdit(true);
@@ -174,6 +151,7 @@ const Letter = ({letter, setLetters, setShowModal, setModalOption, setShowAlert,
 
   let shortContent = content.length > MAX_LENGTH ? content.substring(0, MAX_LENGTH).concat('...') : content;
 
+  // 삭제 버튼을 누를 경우 동작하는 이벤트
   const handleClickDelete = () => {
     const handleClick = () => {
       setLetters(prev => {
@@ -199,6 +177,7 @@ const Letter = ({letter, setLetters, setShowModal, setModalOption, setShowAlert,
     );
     setShowAlert(true);
   };
+
   // 수정 버튼 누를 경우 동작하는 이벤트
   const handleClickEdit = () => {
     const $content = document.getElementById('content');
@@ -239,11 +218,7 @@ const Letter = ({letter, setLetters, setShowModal, setModalOption, setShowAlert,
     setModalOption(
       new ModalOption(
         true,
-        (
-          <LetterModalContent>
-            <span id="content">{content}</span>
-          </LetterModalContent>
-        ),
+        <LetterModalContent content={content}></LetterModalContent>,
         (
           <ModalFooter
             letter={letter}
