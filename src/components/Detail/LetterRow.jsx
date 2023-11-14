@@ -70,7 +70,7 @@ const LetterRow = ({letter, setLetters, setShowModal, setModalOption, makeAlert}
 
     makeAlert(
       null,
-      new AlertOption(<DeletePopup handleClickYes={handleClick} handleClickNo={() => makeAlert(null, null, 0)} />, {}),
+      new AlertOption(<DeletePopup handleClickYes={handleClick} handleClickNo={() => makeAlert(null, {}, 0)} />, {}),
       Number.POSITIVE_INFINITY,
     );
   };

@@ -21,7 +21,7 @@ const YesNoButton = styled.button`
   height: 50px;
   font-size: 20px;
   border: none;
-  background: ${({background}) => background};
+  background: ${({$background}) => $background};
   border-radius: 5px;
   cursor: pointer;
   color: white;
@@ -32,10 +32,10 @@ const DeletePopup = ({handleClickYes, handleClickNo}) => {
     <AlertContainer>
       <h1>해당 메시지를 삭제하시겠습니까?</h1>
       <div>
-        <YesNoButton onClick={handleClickYes} background={'#228be6'}>
+        <YesNoButton onClick={handleClickYes} $background={'#228be6'}>
           네
         </YesNoButton>
-        <YesNoButton onClick={handleClickNo} background={'#f03e3e'}>
+        <YesNoButton onClick={handleClickNo} $background={'#f03e3e'}>
           취소
         </YesNoButton>
       </div>
