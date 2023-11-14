@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import {Letter, warriors} from '../shared/data';
 import styled from 'styled-components';
 import LetterRow from '../components/Detail/LetterRow';
-import {AlertOption, ModalOption} from '../shared/common';
+import {AlertOption, MAX_FROM_NAME_LENGTH, MAX_LETTER_LENGTH, ModalOption} from '../shared/common';
 import LetterModalContent from '../components/Common/LetterModalContent';
 
 const Container = styled.div`
@@ -100,7 +100,17 @@ const ModalEnrollButton = styled.button`
   cursor: pointer;
 `;
 
-const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOption, setShowAlert}) => {
+const EmptyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 50px;
+  color: white;
+`;
+
+const Detail = ({letters, setLetters, setShowModal, setModalOption, alert}) => {
   const params = useParams();
   const nameRef = useRef(null);
   const fromNameRef = useRef(null);
@@ -143,19 +153,51 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
   }, []);
 
   const onClickEnrollButton = () => {
-    const contentValue = document.getElementById('content').value;
+    const $content = document.getElementById('content');
+    const contentValue = $content.value;
+
+    if (contentValue.length === 0) {
+      alert(null, new AlertOption(<div>편지 내용을 입력해주세요.</div>, {}, 'fail'), 1000);
+      return;
+    }
+
+    if (fromNameRef.current.value.length === 0) {
+      alert(null, new AlertOption(<div>보내는 이를 입력해주세요.</div>, {}, 'fail'), 1000);
+      return;
+    }
+
+    if (contentValue.length > MAX_LETTER_LENGTH) {
+      alert(
+        () => {
+          $content.value = contentValue.substring(0, MAX_LETTER_LENGTH);
+        },
+        new AlertOption(<div>편지 내용은 {MAX_LETTER_LENGTH}자를 넘을 수 없습니다.</div>, {}, 'fail'),
+        1000,
+      );
+      return;
+    }
+
+    if (fromNameRef.current.value.length > MAX_FROM_NAME_LENGTH) {
+      alert(
+        null,
+        new AlertOption(<div>보내는 이름은 {MAX_FROM_NAME_LENGTH}자를 넘을 수 없습니다.</div>, {}, 'fail'),
+        1000,
+      );
+      return;
+    }
+
     let newLetters = [...letters];
     newLetters.push(new Letter(find.name, fromNameRef.current.value, contentValue));
     setLetters(newLetters);
     setShowModal(false);
 
-    setTimeout(() => {
-      setAlertOption(new AlertOption(<div>등록 되었습니다.</div>, {}, 'success'));
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 800);
-    });
+    alert(
+      () => {
+        setTimeout(() => setModalOption(new ModalOption()));
+      },
+      new AlertOption(<div>등록 되었습니다.</div>, {}, 'success'),
+      500,
+    );
   };
 
   const onClickWriteButton = () => {
@@ -168,7 +210,7 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
             <ModalEnrollButton onClick={onClickEnrollButton}>등록</ModalEnrollButton>
             <div>
               <label htmlFor="fromName">From.</label>
-              <input id="fromName" ref={fromNameRef} />
+              <input id="fromName" ref={fromNameRef} placeholder={`최대 ${MAX_FROM_NAME_LENGTH}자 까지 가능 합니다.`} />
             </div>
           </ModalButtonContainer>
         ),
@@ -181,6 +223,8 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
     setShowModal(true);
   };
 
+  const filtered = letters.filter(letter => letter.to === name);
+
   return (
     <Container>
       <Img img={image}></Img>
@@ -190,19 +234,22 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, setAlertOpti
         </h1>
       </Header>
       <LetterListContainer>
-        {letters
-          .filter(letter => letter.to === name)
-          .map(letter => (
-            <LetterRow
-              key={letter.id}
-              letter={letter}
-              setLetters={setLetters}
-              setShowModal={setShowModal}
-              setModalOption={setModalOption}
-              setShowAlert={setShowAlert}
-              setAlertOption={setAlertOption}
-            />
-          ))}
+        {filtered.length === 0 && (
+          <EmptyContainer>
+            <p>남겨진 응원 메시지가 없습니다. 🥺</p>
+            <p>첫 번째 응원 메시지를 남겨주세요!</p>
+          </EmptyContainer>
+        )}
+        {filtered.map(letter => (
+          <LetterRow
+            key={letter.id}
+            letter={letter}
+            setLetters={setLetters}
+            setShowModal={setShowModal}
+            setModalOption={setModalOption}
+            alert={alert}
+          />
+        ))}
         <WriteButton onClick={onClickWriteButton}>📝</WriteButton>
       </LetterListContainer>
     </Container>

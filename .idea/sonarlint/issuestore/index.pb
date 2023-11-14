@@ -15,8 +15,6 @@ U
 jsconfig.json,5/6/56f2d335ffa27c20b4ea310cf0214fa96f325894
 P
  src/components/Layout/Header.jsx,2/8/284198396b75ca7e1b45a8859e43fb94ab12afa5
-P
- src/components/Detail/Letter.jsx,8/b/8b73d7050200b29bfb7a9bfdf95114a2aef6d7db
 ;
 src/App.jsx,c/0/c0e9e59a467e1546695bfa22746b302540797a4e
 P
@@ -29,16 +27,10 @@ D
 src/shared/common.js,6/2/62c2c0af504b30da7a915156cce1204daa227e77
 O
 src/components/Common/Alert.jsx,3/2/32ec40f23446a8af0183c423531dfbb11df97d5e
-T
-$src/components/Common/LetterModal.js,2/b/2bcbe8a0fd25464cecea90f1ea6325d75d2ae210
-U
-%src/components/Common/LetterModal.jsx,0/b/0b8a5bddf877bd7136954c6ae73864909140b0da
 \
 ,src/components/Common/LetterModalContent.jsx,5/d/5d4155b6e152a45c034b7f97977a41ed28fa6564
 <
 src/index.js,f/9/f900edc44cb929c2267a16100a32851f6d5b477d
-D
-src/shared/helper.js,e/f/ef1face489f82efa322ffb4779bc643e5cbe26ea
 A
 src/setupTests.js,b/7/b7e8d8f421068b8d51c89805d2035e747be2ff17
 =
@@ -47,3 +39,15 @@ A
 src/reset.css,2/5/25a3ca7072ec2a5e8c55b4253ba62ab41bdf1c89
 S
 #src/components/Detail/LetterRow.jsx,1/b/1be60e0f9501ebf169cf38c3971d427d0ebf0428
+P
+ src/components/Layout/Footer.jsx,2/d/2da09daaca0f656ad7fecaa518578eaaa64f39ca
+;
+.prettierrc,2/0/20137a9e94744624390b6748bc96df5ca1579b71
+Y
+)src/components/Home/AllLetterContainer.js,8/8/88721632349390119b1eeec98731f9e51ff19854
+Z
+*src/components/Home/AllLetterContainer.jsx,d/6/d616eb83e4e647d80c1582e30df6670b4449fc7b
+K
+src/shared/GloabalStyle.jsx,5/4/54d01e42e365a24e473a9c93aa88d84262654a7c
+F
+src/reportWebVitals.js,1/c/1ce5e63ae1582ed0b425c46001299a07515efbf9

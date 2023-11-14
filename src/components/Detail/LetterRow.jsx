@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {AlertOption, ModalOption} from '../../shared/common';
+import {AlertOption, convertDateToDateTimeString, ModalOption} from '../../shared/common';
 import LetterModalContent from '../Common/LetterModalContent';
 
 const MAX_LENGTH = 50;
@@ -18,9 +18,10 @@ const LetterContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     height: 100%;
-    width: 100%;
+    width: 80%;
     color: white;
     font-weight: bold;
+    overflow: hidden;
   }
   & div span {
     text-align: end;
@@ -34,12 +35,16 @@ const LetterContainer = styled.div`
 
 const ProfileImg = styled.img`
   height: 100px;
-  margin-right: 50px;
+  margin-right: 4vw;
 `;
 
 const LetterContent = styled.article`
   margin-bottom: 10px;
   padding: 10px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
 `;
 
 const LetterModalFooter = styled.footer`
@@ -133,17 +138,16 @@ const ModalFooter = ({letter, handleClickEdit, handleClickDelete, handleClickCom
           </ModalButton>
         )}
       </div>
-      {letter.date} From. {letter.from}
+      <span>{convertDateToDateTimeString(letter.date)}</span>
+      <span>From. {letter.from}</span>
     </LetterModalFooter>
   );
 };
 
-const LetterRow = ({letter, setLetters, setShowModal, setModalOption, setShowAlert, setAlertOption}) => {
+const LetterRow = ({letter, setLetters, setShowModal, setModalOption, alert}) => {
   let {content} = letter;
 
   const envelopeCloseImg = require('assets/img/envelope-close.png');
-
-  let shortContent = content.length > MAX_LENGTH ? content.substring(0, MAX_LENGTH).concat('...') : content;
 
   // 모달에 들어가야할 옵션을 바꿔줌.. 그래야 모달 리렌더링이 일어남
   const changeModalOption = (content, isEdit) => {
@@ -176,22 +180,17 @@ const LetterRow = ({letter, setLetters, setShowModal, setModalOption, setShowAle
         newLetters.splice(findIndex, 1);
         return newLetters;
       });
-      setShowModal(false);
-      setShowAlert(false);
 
-      setTimeout(() => {
-        setAlertOption(new AlertOption(<div>삭제 되었습니다.</div>, {}, 'success'));
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 800);
-      });
+      setShowModal(false);
+
+      alert(null, new AlertOption(<div>삭제 되었습니다.</div>, {}, 'success'), 800);
     };
 
-    setAlertOption(
-      new AlertOption(<DeletePopup handleClickYes={handleClick} handleClickNo={() => setShowAlert(false)} />, {}),
+    alert(
+      null,
+      new AlertOption(<DeletePopup handleClickYes={handleClick} handleClickNo={() => alert(null, null, 0)} />, {}),
+      Number.POSITIVE_INFINITY,
     );
-    setShowAlert(true);
   };
 
   // 수정 버튼 누를 경우 동작하는 이벤트
@@ -202,6 +201,17 @@ const LetterRow = ({letter, setLetters, setShowModal, setModalOption, setShowAle
   // 완료 버튼 누를 경우 동작하는 이벤트
   const handleClickComplete = () => {
     const $textarea = document.getElementById('content');
+
+    if (content === $textarea.value) {
+      alert(
+        () => {
+          changeModalOption($textarea.value, false);
+        },
+        new AlertOption(<div>수정 사항이 없습니다.</div>, {}, 'warn'),
+        800,
+      );
+      return;
+    }
 
     setLetters(prev => {
       let findIndex = prev.findIndex(v => v.id === letter.id);
@@ -221,14 +231,15 @@ const LetterRow = ({letter, setLetters, setShowModal, setModalOption, setShowAle
     changeModalOption(content, false);
   };
 
+  console.log(letter);
+
   return (
     <LetterContainer onClick={handleClickLetter}>
       <ProfileImg src={envelopeCloseImg} />
       <div>
-        <LetterContent>{shortContent}</LetterContent>
-        <span>
-          {letter.date} From. {letter.from}
-        </span>
+        <LetterContent>{content}</LetterContent>
+        <span>{convertDateToDateTimeString(letter.date)}</span>
+        <span>From. {letter.from}</span>
       </div>
     </LetterContainer>
   );

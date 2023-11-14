@@ -4,7 +4,7 @@ import Home from '../pages/Home';
 import Layout from '../components/Layout/Layout';
 import Detail from '../pages/Detail';
 import {initLetters} from './data';
-import {AlertOption, ModalOption} from './common';
+import {AlertOption} from './common';
 
 const AppRouter = () => {
   const data = localStorage.getItem('letters');
@@ -13,6 +13,20 @@ const AppRouter = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [modalOption, setModalOption] = useState({});
   const [alertOption, setAlertOption] = useState(new AlertOption());
+
+  const alert = (cb, option, millis) => {
+    setTimeout(() => {
+      setAlertOption(option);
+      setShowAlert(true);
+      if (cb) cb();
+
+      if (millis !== Number.POSITIVE_INFINITY) {
+        setTimeout(() => {
+          setShowAlert(false);
+        }, millis);
+      }
+    });
+  };
 
   localStorage.setItem('letters', JSON.stringify(letters));
   return (
@@ -28,10 +42,22 @@ const AppRouter = () => {
               showAlert={showAlert}
               alertOption={alertOption}
               setModalOption={setModalOption}
+              alert={alert}
             />
           }
         >
-          <Route path="/" element={<Home />}></Route>
+          <Route
+            path="/"
+            element={
+              <Home
+                letters={letters}
+                setLetters={setLetters}
+                setShowModal={setShowModal}
+                setModalOption={setModalOption}
+                alert={alert}
+              />
+            }
+          ></Route>
           <Route
             path="detail/:id"
             element={
@@ -39,9 +65,8 @@ const AppRouter = () => {
                 letters={letters}
                 setLetters={setLetters}
                 setShowModal={setShowModal}
-                setShowAlert={setShowAlert}
                 setModalOption={setModalOption}
-                setAlertOption={setAlertOption}
+                alert={alert}
               />
             }
           ></Route>

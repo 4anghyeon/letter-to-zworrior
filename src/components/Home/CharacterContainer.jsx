@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {warriors} from '../../shared/data';
 import CharacterCard from './CharacterCard';
 
-const Container = styled.div`
+const Container = styled.section`
   display: flex;
   justify-content: space-around;
   align-items: center;

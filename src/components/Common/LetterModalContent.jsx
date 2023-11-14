@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import styled from 'styled-components';
+import {MAX_LETTER_LENGTH} from '../../shared/common';
 
 const Content = styled.article`
   padding: 30px;
@@ -34,7 +35,14 @@ const LetterModalContent = ({content, isEdit}) => {
   return (
     <Content>
       {!isEdit && <span>{content}</span>}
-      {isEdit && <textarea id="content" defaultValue={content} ref={textAreaRef}></textarea>}
+      {isEdit && (
+        <textarea
+          id="content"
+          defaultValue={content}
+          ref={textAreaRef}
+          placeholder={`최대 ${MAX_LETTER_LENGTH}자 까지 가능 합니다.`}
+        ></textarea>
+      )}
     </Content>
   );
 };

@@ -65,6 +65,13 @@ const renderByType = ({type, contentElem}) => {
           {contentElem}
         </MessageDiv>
       );
+    case 'fail':
+      return (
+        <MessageDiv>
+          <span>😢 </span>
+          {contentElem}
+        </MessageDiv>
+      );
     default:
       return <MessageDiv>{contentElem}</MessageDiv>;
   }
