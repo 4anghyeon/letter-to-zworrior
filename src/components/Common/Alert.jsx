@@ -2,6 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import {AlertOption} from '../../shared/common';
 
+const Alert = ({showAlert, alertOption}) => {
+  return (
+    <AlertContainer $show={showAlert.toString()} style={alertOption.styleOption}>
+      <MessageDiv>
+        {alertOption.type === AlertOption.SUCCESS && <span>✅ </span>}
+        {alertOption.type === AlertOption.WARN && <span>⚠️</span>}
+        {alertOption.type === AlertOption.FAIL && <span>😢 </span>}
+        {alertOption.contentElem}
+      </MessageDiv>
+    </AlertContainer>
+  );
+};
+
 const AlertContainer = styled.section`
   display: ${({$show}) => ($show === 'true' ? 'flex' : 'none')};
   justify-content: center;
@@ -13,9 +26,9 @@ const AlertContainer = styled.section`
   padding: 30px;
   top: 0;
   bottom: 0;
-  margin: auto;
   left: 0;
   right: 0;
+  margin: auto;
   border: 1px solid white;
   z-index: 100;
   border-radius: 10px;
@@ -50,18 +63,5 @@ const MessageDiv = styled.div`
     margin-right: 10px;
   }
 `;
-
-const Alert = ({showAlert, alertOption}) => {
-  return (
-    <AlertContainer $show={showAlert.toString()} style={alertOption.styleOption}>
-      <MessageDiv>
-        {alertOption.type === AlertOption.SUCCESS && <span>✅ </span>}
-        {alertOption.type === AlertOption.WARN && <span>⚠️</span>}
-        {alertOption.type === AlertOption.FAIL && <span>😢 </span>}
-        {alertOption.contentElem}
-      </MessageDiv>
-    </AlertContainer>
-  );
-};
 
 export default Alert;

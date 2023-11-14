@@ -55,3 +55,5 @@ F
 +src/components/Detail/DetailModalFooter.jsx,9/e/9ec28495c1589580a288c9f88d207aebb7a3b643
 U
 %src/components/Detail/DeletePopup.jsx,9/5/95a42b7da64486a880b30a38413f3cf29312a483
+A
+public/index.html,f/4/f43ecdf8d666ee908aacce037b4cd72159e4741b

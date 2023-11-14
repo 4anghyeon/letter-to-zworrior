@@ -1,57 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
-import {AlertOption, convertDateToDateTimeString, ModalOption} from '../../shared/common';
+import {AlertOption, convertDateToDateTimeString, ModalOption, validation} from '../../shared/common';
 import LetterModalContent from '../Common/LetterModalContent';
 import DetailModalFooter from './DetailModalFooter';
 import DeletePopup from './DeletePopup';
-import {validation} from '../../pages/Detail';
-
-const LetterContainer = styled.div`
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  cursor: pointer;
-  & span {
-    font-style: italic;
-  }
-  & div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    width: 80%;
-    color: white;
-    font-weight: bold;
-    overflow: hidden;
-  }
-  & div span {
-    text-align: end;
-    margin-right: 50px;
-  }
-  border: 1px solid white;
-  border-radius: 10px;
-  margin: 10px;
-  padding: 10px;
-`;
-
-const ProfileImg = styled.img`
-  height: 100px;
-  margin-right: 4vw;
-`;
-
-const LetterContent = styled.article`
-  margin-bottom: 10px;
-  padding: 10px 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  white-space: nowrap;
-`;
 
 const LetterRow = ({letter, setLetters, setShowModal, setModalOption, makeAlert}) => {
   let {content} = letter;
 
   const envelopeCloseImg = require('assets/img/envelope-close.png');
+
+  // 모달에 들어가야할 옵션을 바꿔줌.. 그래야 모달 리렌더링이 일어남
+  const changeModalOption = (content, isEdit) => {
+    setModalOption(
+      new ModalOption(
+        true,
+        <LetterModalContent content={content} isEdit={isEdit}></LetterModalContent>,
+        (
+          <DetailModalFooter
+            letter={letter}
+            handleClickDelete={handleClickDelete}
+            handleClickEdit={handleClickEdit}
+            handleClickComplete={handleClickComplete}
+            isEdit={isEdit}
+          ></DetailModalFooter>
+        ),
+        {
+          background: '#fff9db',
+        },
+      ),
+    );
+  };
 
   // 삭제 버튼을 누를 경우 동작하는 이벤트
   const handleClickDelete = () => {
@@ -108,28 +87,6 @@ const LetterRow = ({letter, setLetters, setShowModal, setModalOption, makeAlert}
     content = $textarea.value;
   };
 
-  // 모달에 들어가야할 옵션을 바꿔줌.. 그래야 모달 리렌더링이 일어남
-  const changeModalOption = (content, isEdit) => {
-    setModalOption(
-      new ModalOption(
-        true,
-        <LetterModalContent content={content} isEdit={isEdit}></LetterModalContent>,
-        (
-          <DetailModalFooter
-            letter={letter}
-            handleClickDelete={handleClickDelete}
-            handleClickEdit={handleClickEdit}
-            handleClickComplete={handleClickComplete}
-            isEdit={isEdit}
-          ></DetailModalFooter>
-        ),
-        {
-          background: '#fff9db',
-        },
-      ),
-    );
-  };
-
   // 편지 Row를 클릭할 경우
   // 모달 창 OPEN, EventBinding
   const handleClickLetter = () => {
@@ -148,5 +105,47 @@ const LetterRow = ({letter, setLetters, setShowModal, setModalOption, makeAlert}
     </LetterContainer>
   );
 };
+
+const LetterContainer = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  cursor: pointer;
+  & span {
+    font-style: italic;
+  }
+  & div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 80%;
+    color: white;
+    font-weight: bold;
+    overflow: hidden;
+  }
+  & div span {
+    text-align: end;
+    margin-right: 50px;
+  }
+  border: 1px solid white;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+`;
+
+const ProfileImg = styled.img`
+  height: 100px;
+  margin-right: 4vw;
+`;
+
+const LetterContent = styled.article`
+  margin-bottom: 10px;
+  padding: 10px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
+`;
 
 export default LetterRow;

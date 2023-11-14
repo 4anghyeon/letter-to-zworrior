@@ -6,16 +6,6 @@ import styled from 'styled-components';
 import Modal from '../Common/Modal';
 import Alert from '../Common/Alert';
 
-const Main = styled.main`
-  width: 100vw;
-  height: 100vh;
-  background: black;
-`;
-
-const Content = styled.section`
-  height: calc(100% - 100px); // 100% - (header(px) + footer(px))
-`;
-
 const Layout = ({showModal, setShowModal, modalOption, setModalOption, showAlert, alertOption}) => {
   return (
     <Main>
@@ -34,5 +24,15 @@ const Layout = ({showModal, setShowModal, modalOption, setModalOption, showAlert
     </Main>
   );
 };
+
+const Main = styled.main`
+  width: 100vw;
+  height: 100vh;
+  background: black;
+`;
+
+const Content = styled.section`
+  height: calc(100% - 100px); // 100% - (header(px) + footer(px))
+`;
 
 export default Layout;

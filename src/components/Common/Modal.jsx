@@ -2,6 +2,28 @@ import React from 'react';
 import styled from 'styled-components';
 import {ModalOption} from '../../shared/common';
 
+const Modal = ({showModal, setShowModal, modalOption, setModalOption}) => {
+  const hideModal = () => {
+    setShowModal(false);
+    setModalOption(new ModalOption());
+  };
+
+  return (
+    <>
+      <ModalContainer $show={showModal.toString()} style={modalOption.styleOption}>
+        {modalOption.showHeader && (
+          <ModalHeader>
+            <button onClick={hideModal}>X</button>
+          </ModalHeader>
+        )}
+        {modalOption.contentElem}
+        {modalOption.footerElem}
+      </ModalContainer>
+      <ModalShadow onClick={hideModal} id="modalShadow" $show={showModal.toString()}></ModalShadow>
+    </>
+  );
+};
+
 const ModalShadow = styled.div`
   display: ${({$show}) => ($show === 'true' ? 'flex' : 'none')};
   height: 100vh;
@@ -54,27 +76,5 @@ const ModalHeader = styled.header`
     color: black;
   }
 `;
-
-const Modal = ({showModal, setShowModal, modalOption, setModalOption}) => {
-  const hideModal = () => {
-    setShowModal(false);
-    setModalOption(new ModalOption());
-  };
-
-  return (
-    <>
-      <ModalContainer $show={showModal.toString()} style={modalOption.styleOption}>
-        {modalOption.showHeader && (
-          <ModalHeader>
-            <button onClick={hideModal}>X</button>
-          </ModalHeader>
-        )}
-        {modalOption.contentElem}
-        {modalOption.footerElem}
-      </ModalContainer>
-      <ModalShadow onClick={hideModal} id="modalShadow" $show={showModal.toString()}></ModalShadow>
-    </>
-  );
-};
 
 export default Modal;

@@ -2,6 +2,27 @@ import React, {useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import {MAX_LETTER_LENGTH} from '../../shared/common';
 
+const LetterModalContent = ({content, isEdit}) => {
+  const textAreaRef = useRef(null);
+
+  useEffect(() => {
+    textAreaRef?.current?.focus();
+  }, [isEdit]);
+  return (
+    <Content>
+      {!isEdit && <span>{content}</span>}
+      {isEdit && (
+        <textarea
+          id="content"
+          defaultValue={content}
+          ref={textAreaRef}
+          placeholder={`최대 ${MAX_LETTER_LENGTH}자 까지 가능 합니다.`}
+        ></textarea>
+      )}
+    </Content>
+  );
+};
+
 const Content = styled.article`
   padding: 30px;
   font-size: 25px;
@@ -27,26 +48,5 @@ const Content = styled.article`
     font-family: 'KOTRAHOPE', serif;
   }
 `;
-
-const LetterModalContent = ({content, isEdit}) => {
-  const textAreaRef = useRef(null);
-
-  useEffect(() => {
-    textAreaRef?.current?.focus();
-  }, [isEdit]);
-  return (
-    <Content>
-      {!isEdit && <span>{content}</span>}
-      {isEdit && (
-        <textarea
-          id="content"
-          defaultValue={content}
-          ref={textAreaRef}
-          placeholder={`최대 ${MAX_LETTER_LENGTH}자 까지 가능 합니다.`}
-        ></textarea>
-      )}
-    </Content>
-  );
-};
 
 export default LetterModalContent;
