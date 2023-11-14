@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import {AlertOption} from '../../shared/common';
 
 const AlertContainer = styled.section`
-  display: ${({show}) => (show === 'true' ? 'flex' : 'none')};
+  display: ${({$show}) => ($show === 'true' ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -50,37 +51,15 @@ const MessageDiv = styled.div`
   }
 `;
 
-const renderByType = ({type, contentElem}) => {
-  switch (type) {
-    case 'warn':
-      return (
-        <MessageDiv>
-          <span>⚠️</span>️{contentElem}
-        </MessageDiv>
-      );
-    case 'success':
-      return (
-        <MessageDiv>
-          <span>✅ </span>
-          {contentElem}
-        </MessageDiv>
-      );
-    case 'fail':
-      return (
-        <MessageDiv>
-          <span>😢 </span>
-          {contentElem}
-        </MessageDiv>
-      );
-    default:
-      return <MessageDiv>{contentElem}</MessageDiv>;
-  }
-};
-
 const Alert = ({showAlert, alertOption}) => {
   return (
-    <AlertContainer show={showAlert.toString()} style={alertOption.styleOption}>
-      {renderByType(alertOption)}
+    <AlertContainer $show={showAlert.toString()} style={alertOption.styleOption}>
+      <MessageDiv>
+        {alertOption.type === AlertOption.SUCCESS && <span>✅ </span>}
+        {alertOption.type === AlertOption.WARN && <span>⚠️</span>}
+        {alertOption.type === AlertOption.FAIL && <span>😢 </span>}
+        {alertOption.contentElem}
+      </MessageDiv>
     </AlertContainer>
   );
 };

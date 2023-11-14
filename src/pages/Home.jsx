@@ -2,7 +2,7 @@ import React from 'react';
 import CharacterContainer from '../components/Home/CharacterContainer';
 import AllLetterContainer from '../components/Home/AllLetterContainer';
 
-const Home = ({letters, setLetters, setShowModal, setModalOption, alert}) => {
+const Home = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) => {
   return (
     <React.Fragment>
       {/* 1.  Z전사 나열 */}
@@ -13,7 +13,7 @@ const Home = ({letters, setLetters, setShowModal, setModalOption, alert}) => {
         setLetters={setLetters}
         setShowModal={setShowModal}
         setModalOption={setModalOption}
-        alert={alert}
+        makeAlert={makeAlert}
       />
     </React.Fragment>
   );

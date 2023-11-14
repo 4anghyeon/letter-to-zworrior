@@ -53,6 +53,22 @@ export const GlobalStyle = createGlobalStyle`
   }
   
   body {
+    @font-face {
+      font-family: 'KOTRAHOPE';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+    
+    @font-face {
+      font-family: 'NPSfontBold';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/NPSfontBold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+    
+    font-family: 'NPSfontBold',serif;
+    
     ::-webkit-scrollbar {
       width: 5px;
       height: 5px;

@@ -9,6 +9,7 @@ const Content = styled.article`
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  font-family: 'KOTRAHOPE', serif;
   & span {
     border-bottom: 1px solid lightgrey;
   }
@@ -23,6 +24,7 @@ const Content = styled.article`
     font-size: 25px;
     border: none;
     resize: none;
+    font-family: 'KOTRAHOPE', serif;
   }
 `;
 

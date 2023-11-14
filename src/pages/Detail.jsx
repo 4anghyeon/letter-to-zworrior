@@ -19,7 +19,7 @@ const Container = styled.div`
 const Img = styled.div`
   width: 30vw;
   height: 100%;
-  background-image: url(${props => props.img});
+  background-image: url(${({$img}) => $img});
   background-position-x: center;
   background-size: cover;
   grid-area: menu;
@@ -110,18 +110,47 @@ const EmptyContainer = styled.div`
   color: white;
 `;
 
-const Detail = ({letters, setLetters, setShowModal, setModalOption, alert}) => {
+// 입력값 검증
+export const validation = (contentValue, fromNameValue, makeAlert) => {
+  if (contentValue.length === 0) {
+    makeAlert(null, new AlertOption(<div>편지 내용을 입력해주세요.</div>, {}, AlertOption.FAIL), 1000);
+    return false;
+  }
+
+  if (fromNameValue.length === 0) {
+    makeAlert(null, new AlertOption(<div>보내는 이를 입력해주세요.</div>, {}, AlertOption.FAIL), 1000);
+    return false;
+  }
+
+  if (contentValue.length > MAX_LETTER_LENGTH) {
+    makeAlert(
+      null,
+      new AlertOption(<div>편지 내용은 {MAX_LETTER_LENGTH}자를 넘을 수 없습니다.</div>, {}, AlertOption.FAIL),
+      1000,
+    );
+    return false;
+  }
+
+  if (fromNameValue.length > MAX_FROM_NAME_LENGTH) {
+    makeAlert(
+      null,
+      new AlertOption(<div>보내는 이름은 {MAX_FROM_NAME_LENGTH}자를 넘을 수 없습니다.</div>, {}, AlertOption.FAIL),
+      1000,
+    );
+    return false;
+  }
+  return true;
+};
+
+const Detail = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) => {
   const params = useParams();
-  const nameRef = useRef(null);
-  const fromNameRef = useRef(null);
+  const nameRef = useRef(null); // 캐릭터 이름
+  const fromNameRef = useRef(null); // 쓰는 사람 이름
 
-  const {id} = params;
-
-  const find = warriors.find(d => +d.id === +id);
-  const {name, separatedName} = find;
+  const {name, separatedName} = warriors.find(d => +d.id === +params.id);
   const image = require(`assets/img/${name.replace(/\s/g, '')}.png`);
 
-  let timeoutIds = [];
+  const timeoutIds = [];
 
   // 글자 하나씩 표시
   useEffect(() => {
@@ -152,46 +181,19 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, alert}) => {
     };
   }, []);
 
+  // 등록 버튼 이벤트
   const onClickEnrollButton = () => {
     const $content = document.getElementById('content');
     const contentValue = $content.value;
 
-    if (contentValue.length === 0) {
-      alert(null, new AlertOption(<div>편지 내용을 입력해주세요.</div>, {}, 'fail'), 1000);
-      return;
-    }
-
-    if (fromNameRef.current.value.length === 0) {
-      alert(null, new AlertOption(<div>보내는 이를 입력해주세요.</div>, {}, 'fail'), 1000);
-      return;
-    }
-
-    if (contentValue.length > MAX_LETTER_LENGTH) {
-      alert(
-        () => {
-          $content.value = contentValue.substring(0, MAX_LETTER_LENGTH);
-        },
-        new AlertOption(<div>편지 내용은 {MAX_LETTER_LENGTH}자를 넘을 수 없습니다.</div>, {}, 'fail'),
-        1000,
-      );
-      return;
-    }
-
-    if (fromNameRef.current.value.length > MAX_FROM_NAME_LENGTH) {
-      alert(
-        null,
-        new AlertOption(<div>보내는 이름은 {MAX_FROM_NAME_LENGTH}자를 넘을 수 없습니다.</div>, {}, 'fail'),
-        1000,
-      );
-      return;
-    }
+    if (!validation(contentValue, fromNameRef.current.value, makeAlert)) return;
 
     let newLetters = [...letters];
-    newLetters.push(new Letter(find.name, fromNameRef.current.value, contentValue));
+    newLetters.push(new Letter(name, fromNameRef.current.value, contentValue));
     setLetters(newLetters);
     setShowModal(false);
 
-    alert(
+    makeAlert(
       () => {
         setTimeout(() => setModalOption(new ModalOption()));
       },
@@ -200,6 +202,7 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, alert}) => {
     );
   };
 
+  // 메시지 쓰기 이벤트
   const onClickWriteButton = () => {
     setModalOption(
       new ModalOption(
@@ -227,7 +230,7 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, alert}) => {
 
   return (
     <Container>
-      <Img img={image}></Img>
+      <Img $img={image}></Img>
       <Header>
         <h1>
           <span ref={nameRef}></span>에게 응원의 메시지를 남겨보세요.
@@ -247,7 +250,7 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, alert}) => {
             setLetters={setLetters}
             setShowModal={setShowModal}
             setModalOption={setModalOption}
-            alert={alert}
+            makeAlert={makeAlert}
           />
         ))}
         <WriteButton onClick={onClickWriteButton}>📝</WriteButton>

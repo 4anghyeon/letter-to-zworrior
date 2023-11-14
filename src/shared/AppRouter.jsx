@@ -14,7 +14,8 @@ const AppRouter = () => {
   const [modalOption, setModalOption] = useState({});
   const [alertOption, setAlertOption] = useState(new AlertOption());
 
-  const alert = (cb, option, millis) => {
+  // 알람 팝업 발생 함수
+  const makeAlert = (cb, option, millis) => {
     setTimeout(() => {
       setAlertOption(option);
       setShowAlert(true);
@@ -42,7 +43,6 @@ const AppRouter = () => {
               showAlert={showAlert}
               alertOption={alertOption}
               setModalOption={setModalOption}
-              alert={alert}
             />
           }
         >
@@ -54,7 +54,7 @@ const AppRouter = () => {
                 setLetters={setLetters}
                 setShowModal={setShowModal}
                 setModalOption={setModalOption}
-                alert={alert}
+                makeAlert={makeAlert}
               />
             }
           ></Route>
@@ -66,7 +66,7 @@ const AppRouter = () => {
                 setLetters={setLetters}
                 setShowModal={setShowModal}
                 setModalOption={setModalOption}
-                alert={alert}
+                makeAlert={makeAlert}
               />
             }
           ></Route>

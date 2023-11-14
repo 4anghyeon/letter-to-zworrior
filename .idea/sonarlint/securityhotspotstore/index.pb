@@ -51,3 +51,7 @@ K
 src/shared/GloabalStyle.jsx,5/4/54d01e42e365a24e473a9c93aa88d84262654a7c
 F
 src/reportWebVitals.js,1/c/1ce5e63ae1582ed0b425c46001299a07515efbf9
+[
++src/components/Detail/DetailModalFooter.jsx,9/e/9ec28495c1589580a288c9f88d207aebb7a3b643
+U
+%src/components/Detail/DeletePopup.jsx,9/5/95a42b7da64486a880b30a38413f3cf29312a483

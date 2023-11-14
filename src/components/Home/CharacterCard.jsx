@@ -15,7 +15,7 @@ const Card = styled.div`
 const Img = styled.div`
   width: 100%;
   height: 100%;
-  background-image: url(${({img}) => img});
+  background-image: url(${({$img}) => $img});
   background-position-x: center;
   background-size: cover;
   transition: ease-in-out 0.5s;
@@ -31,7 +31,7 @@ const CharacterCard = ({character}) => {
   return (
     <Card name={name}>
       <Link to={`/detail/${id}`}>
-        <Img img={image}></Img>
+        <Img $img={image}></Img>
       </Link>
     </Card>
   );

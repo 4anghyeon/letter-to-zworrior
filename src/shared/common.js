@@ -16,6 +16,10 @@ export class AlertOption {
     this.styleOption = styleOption;
     this.type = type;
   }
+
+  static WARN = 'warn';
+  static FAIL = 'fail';
+  static SUCCESS = 'success';
 }
 
 export const convertDateToDateTimeString = arg => {
