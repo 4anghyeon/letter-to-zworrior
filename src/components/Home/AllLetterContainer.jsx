@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import LetterRow from '../Detail/LetterRow';
+import {LetterProvider, useLetterState} from '../../context/letter-context';
+import {useModalOptionState, useModalShowState} from '../../context/modal-context';
 
 const AllLetterSection = styled.section`
   display: flex;
@@ -16,7 +18,11 @@ const LetterContainer = styled.div`
   overflow: auto;
 `;
 
-const AllLetterContainer = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) => {
+const AllLetterContainer = () => {
+  const [letters] = useLetterState();
+  const [showModal, setShowModal] = useModalShowState();
+  const [, setModalOption] = useModalOptionState();
+
   return (
     <AllLetterSection>
       <LetterContainer>
@@ -25,10 +31,9 @@ const AllLetterContainer = ({letters, setLetters, setShowModal, setModalOption, 
             <LetterRow
               key={letter.id}
               letter={letter}
-              setLetters={setLetters}
+              showModal={showModal}
               setShowModal={setShowModal}
               setModalOption={setModalOption}
-              makeAlert={makeAlert}
             />
           );
         })}

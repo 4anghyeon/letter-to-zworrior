@@ -5,6 +5,8 @@ import Footer from './Footer';
 import styled from 'styled-components';
 import Modal from '../Common/Modal';
 import Alert from '../Common/Alert';
+import {ModalProvider} from '../../context/modal-context';
+import {AlertProvider} from '../../context/alert-context';
 
 const Main = styled.main`
   width: 100vw;
@@ -16,20 +18,20 @@ const Content = styled.section`
   height: calc(100% - 100px); // 100% - (header(px) + footer(px))
 `;
 
-const Layout = ({showModal, setShowModal, modalOption, setModalOption, showAlert, alertOption}) => {
+const Layout = () => {
   return (
     <Main>
-      <Modal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        modalOption={modalOption}
-        setModalOption={setModalOption}
-      />
-      <Alert showAlert={showAlert} alertOption={alertOption} />
-      <Header />
-      <Content>
-        <Outlet setShowModal={setShowModal} />
-      </Content>
+      <AlertProvider>
+        <ModalProvider>
+          <Modal />
+          <Alert />
+          <Header />
+          <Content>
+            <Outlet />
+          </Content>
+        </ModalProvider>
+      </AlertProvider>
+
       <Footer />
     </Main>
   );

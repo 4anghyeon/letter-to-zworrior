@@ -1,10 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useParams} from 'react-router-dom';
-import {Letter, warriors} from '../shared/data';
+import {warriors} from '../shared/data';
 import styled from 'styled-components';
 import LetterRow from '../components/Detail/LetterRow';
 import {AlertOption, MAX_FROM_NAME_LENGTH, MAX_LETTER_LENGTH, ModalOption} from '../shared/common';
 import LetterModalContent from '../components/Common/LetterModalContent';
+import {useLetterActions, useLetterState} from '../context/letter-context';
+import {useModalOptionState, useModalShowState} from '../context/modal-context';
+import {useAlertActions} from '../context/alert-context';
 
 const Container = styled.div`
   width: 100%;
@@ -142,10 +145,15 @@ export const validation = (contentValue, fromNameValue, makeAlert) => {
   return true;
 };
 
-const Detail = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) => {
+const Detail = () => {
   const params = useParams();
   const nameRef = useRef(null); // 캐릭터 이름
   const fromNameRef = useRef(null); // 쓰는 사람 이름
+  const [letters] = useLetterState();
+  const letterActions = useLetterActions();
+  const [, setShowModal] = useModalShowState();
+  const [, setModalOption] = useModalOptionState();
+  const {makeAlert} = useAlertActions();
 
   const {name, separatedName} = warriors.find(d => +d.id === +params.id);
   const image = require(`assets/img/${name.replace(/\s/g, '')}.png`);
@@ -188,9 +196,7 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) 
 
     if (!validation(contentValue, fromNameRef.current.value, makeAlert)) return;
 
-    let newLetters = [...letters];
-    newLetters.push(new Letter(name, fromNameRef.current.value, contentValue));
-    setLetters(newLetters);
+    letterActions.add(name, fromNameRef.current.value, contentValue);
     setShowModal(false);
 
     makeAlert(
@@ -247,7 +253,6 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) 
           <LetterRow
             key={letter.id}
             letter={letter}
-            setLetters={setLetters}
             setShowModal={setShowModal}
             setModalOption={setModalOption}
             makeAlert={makeAlert}

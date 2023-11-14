@@ -27,7 +27,7 @@ const YesNoButton = styled.button`
   color: white;
 `;
 
-const DeletePopup = ({handleClickYes, handleClickNo}) => {
+const DeleteAlert = ({handleClickYes, handleClickNo}) => {
   return (
     <AlertContainer>
       <h1>해당 메시지를 삭제하시겠습니까?</h1>
@@ -43,4 +43,4 @@ const DeletePopup = ({handleClickYes, handleClickNo}) => {
   );
 };
 
-export default DeletePopup;
+export default DeleteAlert;

@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import {AlertOption} from '../../shared/common';
+import {useAlertOptionState, useShowAlertState} from '../../context/alert-context';
 
 const AlertContainer = styled.section`
-  display: ${({$show}) => ($show === 'true' ? 'flex' : 'none')};
+  display: ${({$show}) => ($show ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -51,9 +52,12 @@ const MessageDiv = styled.div`
   }
 `;
 
-const Alert = ({showAlert, alertOption}) => {
+const Alert = () => {
+  const [showAlert] = useShowAlertState();
+  const [alertOption] = useAlertOptionState();
+
   return (
-    <AlertContainer $show={showAlert.toString()} style={alertOption.styleOption}>
+    <AlertContainer $show={showAlert} style={alertOption.styleOption}>
       <MessageDiv>
         {alertOption.type === AlertOption.SUCCESS && <span>✅ </span>}
         {alertOption.type === AlertOption.WARN && <span>⚠️</span>}

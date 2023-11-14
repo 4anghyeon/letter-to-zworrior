@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import {AlertOption, convertDateToDateTimeString, ModalOption} from '../../shared/common';
 import LetterModalContent from '../Common/LetterModalContent';
 import DetailModalFooter from './DetailModalFooter';
-import DeletePopup from './DeletePopup';
+import DeleteAlert from './DeleteAlert';
 import {validation} from '../../pages/Detail';
+import {useLetterActions} from '../../context/letter-context';
+import {useAlertActions} from '../../context/alert-context';
 
 const LetterContainer = styled.div`
   display: flex;
@@ -48,21 +50,17 @@ const LetterContent = styled.article`
   white-space: nowrap;
 `;
 
-const LetterRow = ({letter, setLetters, setShowModal, setModalOption, makeAlert}) => {
+const LetterRow = ({letter, setModalOption, setShowModal}) => {
   let {content} = letter;
+  const letterActions = useLetterActions();
+  const {makeAlert} = useAlertActions();
 
   const envelopeCloseImg = require('assets/img/envelope-close.png');
 
   // 삭제 버튼을 누를 경우 동작하는 이벤트
   const handleClickDelete = () => {
     const handleClick = () => {
-      setLetters(prev => {
-        let findIndex = prev.findIndex(v => v.id === letter.id);
-        let newLetters = [...prev];
-        newLetters.splice(findIndex, 1);
-        return newLetters;
-      });
-
+      letterActions.remove(letter.id);
       setShowModal(false);
 
       makeAlert(null, new AlertOption(<div>삭제 되었습니다.</div>, {}, 'success'), 800);
@@ -70,7 +68,7 @@ const LetterRow = ({letter, setLetters, setShowModal, setModalOption, makeAlert}
 
     makeAlert(
       null,
-      new AlertOption(<DeletePopup handleClickYes={handleClick} handleClickNo={() => makeAlert(null, {}, 0)} />, {}),
+      new AlertOption(<DeleteAlert handleClickYes={handleClick} handleClickNo={() => makeAlert(null, {}, 0)} />, {}),
       Number.POSITIVE_INFINITY,
     );
   };
@@ -97,13 +95,7 @@ const LetterRow = ({letter, setLetters, setShowModal, setModalOption, makeAlert}
       return;
     }
 
-    setLetters(prev => {
-      let findIndex = prev.findIndex(v => v.id === letter.id);
-      let newLetter = {...prev[findIndex], ...{content: $textarea.value}};
-      let newLetters = [...prev];
-      newLetters.splice(findIndex, 1, newLetter);
-      return newLetters;
-    });
+    letterActions.modify(letter.id, $textarea.value);
     changeModalOption($textarea.value, false);
     content = $textarea.value;
   };
