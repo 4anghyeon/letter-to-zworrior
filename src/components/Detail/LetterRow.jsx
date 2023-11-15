@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {AlertOption, convertDateToDateTimeString, popup, validation} from '../../shared/common';
+import {AlertOption, convertDateToDateTimeString, validation} from '../../shared/common';
 import LetterModalContent from '../Common/LetterModalContent';
 import DetailModalFooter from './DetailModalFooter';
 import DeletePopup from './DeletePopup';
@@ -8,11 +8,13 @@ import {useDispatch} from 'react-redux';
 import {removeLetter, updateLetter} from '../../redux/modules/letters';
 import {showModal} from '../../redux/modules/modal';
 import {hideAlert} from '../../redux/modules/customAlert';
+import {usePopup} from '../../shared/hooks';
 
 const LetterRow = ({letter}) => {
   let {content} = letter;
 
   const dispatch = useDispatch();
+  const popup = usePopup();
   const envelopeCloseImg = require('assets/img/envelope-close.png');
 
   const changeModalOption = (content, isEdit, visible) => {
@@ -39,7 +41,7 @@ const LetterRow = ({letter}) => {
     const handleClick = () => {
       dispatch(removeLetter(letter.id));
       changeModalOption(content, false, false);
-      popup(<div>삭제 되었습니다.</div>, {}, AlertOption.SUCCESS, 800, null, dispatch);
+      popup(<div>삭제 되었습니다.</div>, {}, AlertOption.SUCCESS, 800, null);
     };
 
     popup(
@@ -48,7 +50,6 @@ const LetterRow = ({letter}) => {
       AlertOption.DEFAULT,
       Number.POSITIVE_INFINITY,
       null,
-      dispatch,
     );
   };
 
@@ -61,7 +62,7 @@ const LetterRow = ({letter}) => {
   const handleClickComplete = () => {
     const $textarea = document.getElementById('content');
 
-    if (!validation($textarea.value, letter.from, dispatch)) return;
+    if (!validation($textarea.value, letter.from, popup)) return;
 
     if (content === $textarea.value) {
       popup(

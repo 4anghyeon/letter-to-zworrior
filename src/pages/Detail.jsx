@@ -3,11 +3,12 @@ import {useParams} from 'react-router-dom';
 import {warriors} from '../shared/data';
 import styled from 'styled-components';
 import LetterRow from '../components/Detail/LetterRow';
-import {AlertOption, MAX_FROM_NAME_LENGTH, popup, validation} from '../shared/common';
+import {AlertOption, MAX_FROM_NAME_LENGTH, validation} from '../shared/common';
 import LetterModalContent from '../components/Common/LetterModalContent';
 import {useDispatch, useSelector} from 'react-redux';
 import {addLetter} from '../redux/modules/letters';
 import {showModal} from '../redux/modules/modal';
+import {usePopup} from '../shared/hooks';
 
 const Detail = () => {
   const params = useParams();
@@ -21,6 +22,7 @@ const Detail = () => {
 
   const letters = useSelector(state => state.letters);
   const dispatch = useDispatch();
+  const popup = usePopup();
 
   // 글자 하나씩 표시
   useEffect(() => {
@@ -56,12 +58,12 @@ const Detail = () => {
     const $content = document.getElementById('content');
     const contentValue = $content.value;
 
-    if (!validation(contentValue, fromNameRef.current.value, dispatch)) return;
+    if (!validation(contentValue, fromNameRef.current.value, popup)) return;
 
     dispatch(addLetter(name, fromNameRef.current.value, contentValue));
     dispatch(showModal(null, null, {}, false));
 
-    popup(<div>등록 되었습니다.</div>, {}, AlertOption.SUCCESS, 500, null, dispatch);
+    popup(<div>등록 되었습니다.</div>, {}, AlertOption.SUCCESS, 800, null);
   };
 
   // 메시지 쓰기 이벤트
