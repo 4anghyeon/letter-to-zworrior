@@ -45,7 +45,7 @@ const LetterRow = ({letter}) => {
     popup(
       <DeletePopup handleClickYes={handleClick} handleClickNo={() => dispatch(hideAlert())} />,
       {},
-      AlertOption.SUCCESS,
+      AlertOption.DEFAULT,
       Number.POSITIVE_INFINITY,
       null,
       dispatch,

@@ -24,6 +24,7 @@ export class AlertOption {
   static WARN = 'warn';
   static FAIL = 'fail';
   static SUCCESS = 'success';
+  static DEFAULT = 'default';
 }
 
 export const convertDateToDateTimeString = arg => {
