@@ -1,54 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import {AlertOption, convertDateToDateTimeString, ModalOption} from '../../shared/common';
+import {AlertOption, convertDateToDateTimeString, ModalOption, validation} from '../../shared/common';
 import LetterModalContent from '../Common/LetterModalContent';
 import DetailModalFooter from './DetailModalFooter';
 import DeleteAlert from './DeleteAlert';
-import {validation} from '../../pages/Detail';
 import {useLetterActions} from '../../context/letter-context';
 import {useAlertActions} from '../../context/alert-context';
-
-const LetterContainer = styled.div`
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  cursor: pointer;
-  & span {
-    font-style: italic;
-  }
-  & div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    width: 80%;
-    color: white;
-    font-weight: bold;
-    overflow: hidden;
-  }
-  & div span {
-    text-align: end;
-    margin-right: 50px;
-  }
-  border: 1px solid white;
-  border-radius: 10px;
-  margin: 10px;
-  padding: 10px;
-`;
-
-const ProfileImg = styled.img`
-  height: 100px;
-  margin-right: 4vw;
-`;
-
-const LetterContent = styled.article`
-  margin-bottom: 10px;
-  padding: 10px 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  white-space: nowrap;
-`;
 
 const LetterRow = ({letter, setModalOption, setShowModal}) => {
   let {content} = letter;
@@ -140,5 +97,47 @@ const LetterRow = ({letter, setModalOption, setShowModal}) => {
     </LetterContainer>
   );
 };
+
+const LetterContainer = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  cursor: pointer;
+  & span {
+    font-style: italic;
+  }
+  & div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 80%;
+    color: white;
+    font-weight: bold;
+    overflow: hidden;
+  }
+  & div span {
+    text-align: end;
+    margin-right: 50px;
+  }
+  border: 1px solid white;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+`;
+
+const ProfileImg = styled.img`
+  height: 100px;
+  margin-right: 4vw;
+`;
+
+const LetterContent = styled.article`
+  margin-bottom: 10px;
+  padding: 10px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
+`;
 
 export default LetterRow;

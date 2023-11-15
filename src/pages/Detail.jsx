@@ -3,147 +3,11 @@ import {useParams} from 'react-router-dom';
 import {warriors} from '../shared/data';
 import styled from 'styled-components';
 import LetterRow from '../components/Detail/LetterRow';
-import {AlertOption, MAX_FROM_NAME_LENGTH, MAX_LETTER_LENGTH, ModalOption} from '../shared/common';
+import {AlertOption, MAX_FROM_NAME_LENGTH, ModalOption, validation} from '../shared/common';
 import LetterModalContent from '../components/Common/LetterModalContent';
 import {useLetterActions, useLetterState} from '../context/letter-context';
 import {useModalOptionState, useModalShowState} from '../context/modal-context';
 import {useAlertActions} from '../context/alert-context';
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-areas:
-    'menu header'
-    'menu main';
-  grid-template-rows: 0.1fr 1fr;
-`;
-
-const Img = styled.div`
-  width: 30vw;
-  height: 100%;
-  background-image: url(${({$img}) => $img});
-  background-position-x: center;
-  background-size: cover;
-  grid-area: menu;
-`;
-
-const Header = styled.header`
-  width: 70vw;
-  height: fit-content;
-  padding: 10px;
-  & h1 {
-    font-size: 3.5rem;
-  }
-  grid-area: header;
-  text-align: center;
-  color: white;
-`;
-
-const LetterListContainer = styled.section`
-  grid-area: main;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-  overflow: auto;
-  position: relative;
-`;
-
-const WriteButton = styled.button`
-  position: fixed;
-  width: 100px;
-  height: 100px;
-  font-size: 50px;
-  bottom: 0;
-  right: 0;
-  background: rgba(211, 211, 211, 0.5);
-  border: none;
-  border-radius: 50px;
-  margin: 0 40px 60px 0;
-  cursor: pointer;
-  &:hover {
-    background: rgba(211, 211, 211, 0.9);
-  }
-`;
-
-const ModalButtonContainer = styled.footer`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 10px 20px;
-  font-size: 25px;
-
-  & div {
-    display: flex;
-    align-items: center;
-  }
-
-  & button {
-    border-radius: 5px;
-  }
-
-  & input {
-    border: none;
-    height: 30px;
-    margin-left: 20px;
-    background: transparent;
-    border-bottom: 1px solid black;
-    font-size: 20px;
-  }
-`;
-
-const ModalEnrollButton = styled.button`
-  font-size: 25px;
-  padding: 10px;
-  border: none;
-  background: #37b24d;
-  color: white;
-  cursor: pointer;
-`;
-
-const EmptyContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  font-size: 50px;
-  color: white;
-`;
-
-// 입력값 검증
-export const validation = (contentValue, fromNameValue, makeAlert) => {
-  if (contentValue.length === 0) {
-    makeAlert(null, new AlertOption(<div>편지 내용을 입력해주세요.</div>, {}, AlertOption.FAIL), 1000);
-    return false;
-  }
-
-  if (fromNameValue.length === 0) {
-    makeAlert(null, new AlertOption(<div>보내는 이를 입력해주세요.</div>, {}, AlertOption.FAIL), 1000);
-    return false;
-  }
-
-  if (contentValue.length > MAX_LETTER_LENGTH) {
-    makeAlert(
-      null,
-      new AlertOption(<div>편지 내용은 {MAX_LETTER_LENGTH}자를 넘을 수 없습니다.</div>, {}, AlertOption.FAIL),
-      1000,
-    );
-    return false;
-  }
-
-  if (fromNameValue.length > MAX_FROM_NAME_LENGTH) {
-    makeAlert(
-      null,
-      new AlertOption(<div>보내는 이름은 {MAX_FROM_NAME_LENGTH}자를 넘을 수 없습니다.</div>, {}, AlertOption.FAIL),
-      1000,
-    );
-    return false;
-  }
-  return true;
-};
 
 const Detail = () => {
   const params = useParams();
@@ -263,5 +127,109 @@ const Detail = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-areas:
+    'menu header'
+    'menu main';
+  grid-template-rows: 0.1fr 1fr;
+`;
+
+const Img = styled.div`
+  width: 30vw;
+  height: 100%;
+  background-image: url(${({$img}) => $img});
+  background-position-x: center;
+  background-size: cover;
+  grid-area: menu;
+`;
+
+const Header = styled.header`
+  width: 70vw;
+  height: fit-content;
+  padding: 10px;
+  & h1 {
+    font-size: 3.5rem;
+  }
+  grid-area: header;
+  text-align: center;
+  color: white;
+`;
+
+const LetterListContainer = styled.section`
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  overflow: auto;
+  position: relative;
+`;
+
+const WriteButton = styled.button`
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+  bottom: 0;
+  right: 0;
+  background: rgba(211, 211, 211, 0.5);
+  border: none;
+  border-radius: 50px;
+  margin: 0 40px 60px 0;
+  cursor: pointer;
+  &:hover {
+    background: rgba(211, 211, 211, 0.9);
+  }
+`;
+
+const ModalButtonContainer = styled.footer`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 20px;
+  font-size: 25px;
+
+  & div {
+    display: flex;
+    align-items: center;
+  }
+
+  & button {
+    border-radius: 5px;
+  }
+
+  & input {
+    border: none;
+    height: 30px;
+    margin-left: 20px;
+    background: transparent;
+    border-bottom: 1px solid black;
+    font-size: 20px;
+  }
+`;
+
+const ModalEnrollButton = styled.button`
+  font-size: 25px;
+  padding: 10px;
+  border: none;
+  background: #37b24d;
+  color: white;
+  cursor: pointer;
+`;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 50px;
+  color: white;
+`;
 
 export default Detail;

@@ -33,18 +33,12 @@ O
 src/index.js,f/9/f900edc44cb929c2267a16100a32851f6d5b477d
 A
 src/setupTests.js,b/7/b7e8d8f421068b8d51c89805d2035e747be2ff17
-=
-src/index.css,c/5/c5d38a62d1faae90a2acaa34b79a7ef365c917e4
-=
-src/reset.css,2/5/25a3ca7072ec2a5e8c55b4253ba62ab41bdf1c89
 S
 #src/components/Detail/LetterRow.jsx,1/b/1be60e0f9501ebf169cf38c3971d427d0ebf0428
 P
  src/components/Layout/Footer.jsx,2/d/2da09daaca0f656ad7fecaa518578eaaa64f39ca
 ;
 .prettierrc,2/0/20137a9e94744624390b6748bc96df5ca1579b71
-Y
-)src/components/Home/AllLetterContainer.js,8/8/88721632349390119b1eeec98731f9e51ff19854
 Z
 *src/components/Home/AllLetterContainer.jsx,d/6/d616eb83e4e647d80c1582e30df6670b4449fc7b
 K
@@ -53,17 +47,13 @@ F
 src/reportWebVitals.js,1/c/1ce5e63ae1582ed0b425c46001299a07515efbf9
 [
 +src/components/Detail/DetailModalFooter.jsx,9/e/9ec28495c1589580a288c9f88d207aebb7a3b643
-U
-%src/components/Detail/DeletePopup.jsx,9/5/95a42b7da64486a880b30a38413f3cf29312a483
-L
-src/context/LetterContext.js,6/8/683c138fb0edf7d9ec2d1ffbf3f6f85357d387cd
 M
 src/context/letter-context.js,c/d/cd7bf5f90f053f4c0726e8bc405133bdb503e15d
-J
-src/context/ctx-context.js,5/b/5b8b2cacd8e247c45148dd95f6a92fbd10c0d35f
 L
 src/context/modal-context.js,a/e/ae827c0c99b92dcd4c73dc93aff495deb5b0aecd
 L
 src/context/alert-context.js,d/b/dbcf0a7f71b31bdc17cf68c389d16095dae3ef78
 U
 %src/components/Detail/DeleteAlert.jsx,3/f/3f0a09fd820d781fde3bc9ae86f21242478e4a41
+A
+public/index.html,f/4/f43ecdf8d666ee908aacce037b4cd72159e4741b

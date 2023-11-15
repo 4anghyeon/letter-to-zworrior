@@ -8,16 +8,6 @@ import Alert from '../Common/Alert';
 import {ModalProvider} from '../../context/modal-context';
 import {AlertProvider} from '../../context/alert-context';
 
-const Main = styled.main`
-  width: 100vw;
-  height: 100vh;
-  background: black;
-`;
-
-const Content = styled.section`
-  height: calc(100% - 100px); // 100% - (header(px) + footer(px))
-`;
-
 const Layout = () => {
   return (
     <Main>
@@ -36,5 +26,15 @@ const Layout = () => {
     </Main>
   );
 };
+
+const Main = styled.main`
+  width: 100vw;
+  height: 100vh;
+  background: black;
+`;
+
+const Content = styled.section`
+  height: calc(100% - 100px); // 100% - (header(px) + footer(px))
+`;
 
 export default Layout;

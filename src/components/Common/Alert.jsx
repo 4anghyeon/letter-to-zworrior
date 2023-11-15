@@ -3,6 +3,22 @@ import styled from 'styled-components';
 import {AlertOption} from '../../shared/common';
 import {useAlertOptionState, useShowAlertState} from '../../context/alert-context';
 
+const Alert = () => {
+  const [showAlert] = useShowAlertState();
+  const [alertOption] = useAlertOptionState();
+
+  return (
+    <AlertContainer $show={showAlert} style={alertOption.styleOption}>
+      <MessageDiv>
+        {alertOption.type === AlertOption.SUCCESS && <span>✅ </span>}
+        {alertOption.type === AlertOption.WARN && <span>⚠️</span>}
+        {alertOption.type === AlertOption.FAIL && <span>😢 </span>}
+        {alertOption.contentElem}
+      </MessageDiv>
+    </AlertContainer>
+  );
+};
+
 const AlertContainer = styled.section`
   display: ${({$show}) => ($show ? 'flex' : 'none')};
   justify-content: center;
@@ -51,21 +67,5 @@ const MessageDiv = styled.div`
     margin-right: 10px;
   }
 `;
-
-const Alert = () => {
-  const [showAlert] = useShowAlertState();
-  const [alertOption] = useAlertOptionState();
-
-  return (
-    <AlertContainer $show={showAlert} style={alertOption.styleOption}>
-      <MessageDiv>
-        {alertOption.type === AlertOption.SUCCESS && <span>✅ </span>}
-        {alertOption.type === AlertOption.WARN && <span>⚠️</span>}
-        {alertOption.type === AlertOption.FAIL && <span>😢 </span>}
-        {alertOption.contentElem}
-      </MessageDiv>
-    </AlertContainer>
-  );
-};
 
 export default Alert;

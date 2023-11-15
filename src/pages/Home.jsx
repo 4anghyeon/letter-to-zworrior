@@ -2,7 +2,6 @@ import React from 'react';
 import CharacterContainer from '../components/Home/CharacterContainer';
 import AllLetterContainer from '../components/Home/AllLetterContainer';
 import {LetterProvider} from '../context/letter-context';
-import {AlertProvider} from '../context/alert-context';
 
 const Home = () => {
   return (

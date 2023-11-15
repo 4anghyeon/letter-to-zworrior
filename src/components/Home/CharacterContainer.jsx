@@ -3,16 +3,6 @@ import styled from 'styled-components';
 import {warriors} from '../../shared/data';
 import CharacterCard from './CharacterCard';
 
-const Container = styled.section`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 50%;
-  background: black;
-  padding: 10px 0 10px 10px;
-  cursor: pointer;
-`;
-
 const CharacterContainer = () => {
   return (
     <Container>
@@ -22,5 +12,15 @@ const CharacterContainer = () => {
     </Container>
   );
 };
+
+const Container = styled.section`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 50%;
+  background: black;
+  padding: 10px 0 10px 10px;
+  cursor: pointer;
+`;
 
 export default CharacterContainer;

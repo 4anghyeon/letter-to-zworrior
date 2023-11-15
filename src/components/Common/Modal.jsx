@@ -3,6 +3,31 @@ import styled from 'styled-components';
 import {ModalOption} from '../../shared/common';
 import {useModalActions, useModalOptionState, useModalShowState} from '../../context/modal-context';
 
+const Modal = () => {
+  const [showModal, setShowModal] = useModalShowState();
+  const [modalOption, setModalOption] = useModalOptionState();
+
+  const hideModal = () => {
+    setShowModal(false);
+    setModalOption(new ModalOption());
+  };
+
+  return (
+    <>
+      <ModalContainer $show={showModal} style={modalOption.styleOption}>
+        {modalOption.showHeader && (
+          <ModalHeader>
+            <button onClick={hideModal}>X</button>
+          </ModalHeader>
+        )}
+        {modalOption.contentElem}
+        {modalOption.footerElem}
+      </ModalContainer>
+      <ModalShadow onClick={hideModal} id="modalShadow" $show={showModal}></ModalShadow>
+    </>
+  );
+};
+
 const ModalShadow = styled.div`
   display: ${({$show}) => ($show ? 'flex' : 'none')};
   height: 100vh;
@@ -55,30 +80,5 @@ const ModalHeader = styled.header`
     color: black;
   }
 `;
-
-const Modal = () => {
-  const [showModal, setShowModal] = useModalShowState();
-  const [modalOption, setModalOption] = useModalOptionState();
-
-  const hideModal = () => {
-    setShowModal(false);
-    setModalOption(new ModalOption());
-  };
-
-  return (
-    <>
-      <ModalContainer $show={showModal} style={modalOption.styleOption}>
-        {modalOption.showHeader && (
-          <ModalHeader>
-            <button onClick={hideModal}>X</button>
-          </ModalHeader>
-        )}
-        {modalOption.contentElem}
-        {modalOption.footerElem}
-      </ModalContainer>
-      <ModalShadow onClick={hideModal} id="modalShadow" $show={showModal}></ModalShadow>
-    </>
-  );
-};
 
 export default Modal;

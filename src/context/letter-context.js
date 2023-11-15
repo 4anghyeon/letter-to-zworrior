@@ -5,16 +5,18 @@ const LetterContext = createContext(null);
 const LetterActionContext = createContext(null);
 
 export const LetterProvider = ({children}) => {
-  const data = useMemo(() => localStorage.getItem('letters'), []);
+  const data = localStorage.getItem('letters');
   const letterState = useState(JSON.parse(data) || initLetters);
 
   const actions = useMemo(
     () => ({
       add(name, from, content) {
-        let newLetters = [...letterState[0]];
-        newLetters.push(new Letter(name, from, content));
-        letterState[1](newLetters);
-        localStorage.setItem('letters', JSON.stringify(newLetters));
+        letterState[1](prev => {
+          let newLetters = [...prev];
+          newLetters.push(new Letter(name, from, content));
+          localStorage.setItem('letters', JSON.stringify(newLetters));
+          return newLetters;
+        });
       },
       remove(id) {
         letterState[1](prev => {

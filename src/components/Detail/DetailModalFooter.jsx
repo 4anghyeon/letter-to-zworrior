@@ -2,28 +2,6 @@ import {convertDateToDateTimeString} from '../../shared/common';
 import React from 'react';
 import styled from 'styled-components';
 
-const LetterModalFooter = styled.footer`
-  margin: 10px 20px;
-  text-align: end;
-  font-size: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const ModalButton = styled.button`
-  width: 70px;
-  height: 40px;
-  background: ${({$background}) => $background};
-  border: none;
-  margin-right: 10px;
-  cursor: pointer;
-  padding: 10px;
-  color: white;
-  font-size: 20px;
-  border-radius: 5px;
-`;
-
 const DetailModalFooter = ({letter, handleClickEdit, handleClickDelete, handleClickComplete, isEdit}) => {
   const onClickEdit = () => {
     handleClickEdit();
@@ -56,5 +34,27 @@ const DetailModalFooter = ({letter, handleClickEdit, handleClickDelete, handleCl
     </LetterModalFooter>
   );
 };
+
+const LetterModalFooter = styled.footer`
+  margin: 10px 20px;
+  text-align: end;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ModalButton = styled.button`
+  width: 70px;
+  height: 40px;
+  background: ${({$background}) => $background};
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  font-size: 20px;
+  border-radius: 5px;
+`;
 
 export default DetailModalFooter;

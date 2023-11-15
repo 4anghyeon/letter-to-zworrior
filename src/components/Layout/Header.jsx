@@ -2,6 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
+const Header = () => {
+  const logoImage = require('assets/img/logo.png');
+
+  return (
+    <HeaderContainer>
+      <Link to={'/'}>
+        <img src={logoImage} alt={'logo image'} />
+      </Link>
+    </HeaderContainer>
+  );
+};
+
 const HeaderContainer = styled.header`
   display: flex;
   justify-content: center;
@@ -14,17 +26,5 @@ const HeaderContainer = styled.header`
     padding-top: 5px;
   }
 `;
-
-const Header = () => {
-  const logoImage = require('assets/img/logo.png');
-
-  return (
-    <HeaderContainer>
-      <Link to={'/'}>
-        <img src={logoImage} alt={'logo image'} />
-      </Link>
-    </HeaderContainer>
-  );
-};
 
 export default React.memo(Header);

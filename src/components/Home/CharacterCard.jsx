@@ -2,6 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
+const CharacterCard = ({character}) => {
+  const {id, name} = character;
+  const image = require(`assets/img/${name.replace(/\s/g, '')}.png`);
+
+  return (
+    <Card name={name}>
+      <Link to={`/detail/${id}`}>
+        <Img $img={image}></Img>
+      </Link>
+    </Card>
+  );
+};
+
 const Card = styled.div`
   width: 100%;
   height: 100%;
@@ -23,18 +36,5 @@ const Img = styled.div`
     transform: scale(1.3) translateY(20%);
   }
 `;
-
-const CharacterCard = ({character}) => {
-  const {id, name} = character;
-  const image = require(`assets/img/${name.replace(/\s/g, '')}.png`);
-
-  return (
-    <Card name={name}>
-      <Link to={`/detail/${id}`}>
-        <Img $img={image}></Img>
-      </Link>
-    </Card>
-  );
-};
 
 export default CharacterCard;
