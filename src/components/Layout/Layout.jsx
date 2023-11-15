@@ -6,19 +6,14 @@ import styled from 'styled-components';
 import Modal from '../Common/Modal';
 import Alert from '../Common/Alert';
 
-const Layout = ({showModal, setShowModal, modalOption, setModalOption, showAlert, alertOption}) => {
+const Layout = () => {
   return (
     <Main>
-      <Modal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        modalOption={modalOption}
-        setModalOption={setModalOption}
-      />
-      <Alert showAlert={showAlert} alertOption={alertOption} />
+      <Modal />
+      <Alert />
       <Header />
       <Content>
-        <Outlet setShowModal={setShowModal} />
+        <Outlet />
       </Content>
       <Footer />
     </Main>

@@ -1,10 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import {AlertOption} from '../../shared/common';
+import {useSelector} from 'react-redux';
 
-const Alert = ({showAlert, alertOption}) => {
+const Alert = () => {
+  const alertOption = useSelector(state => state.customAlert);
+
+  console.log(alertOption);
+
   return (
-    <AlertContainer $show={showAlert.toString()} style={alertOption.styleOption}>
+    <AlertContainer $show={alertOption.visible} style={alertOption.styleOption}>
       <MessageDiv>
         {alertOption.type === AlertOption.SUCCESS && <span>✅ </span>}
         {alertOption.type === AlertOption.WARN && <span>⚠️</span>}
@@ -16,7 +21,7 @@ const Alert = ({showAlert, alertOption}) => {
 };
 
 const AlertContainer = styled.section`
-  display: ${({$show}) => ($show === 'true' ? 'flex' : 'none')};
+  display: ${({$show}) => ($show ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
   flex-direction: column;

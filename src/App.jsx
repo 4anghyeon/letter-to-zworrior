@@ -1,12 +1,15 @@
-import {BrowserRouter, Router, Routes} from 'react-router-dom';
 import AppRouter from './shared/AppRouter';
 import {GlobalStyle} from './shared/GloabalStyle';
+import {Provider} from 'react-redux';
+import store from './redux/config/store';
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <AppRouter />
+      <Provider store={store}>
+        <AppRouter />
+      </Provider>
     </>
   );
 }

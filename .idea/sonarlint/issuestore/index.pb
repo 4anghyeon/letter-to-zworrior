@@ -57,3 +57,13 @@ U
 %src/components/Detail/DeletePopup.jsx,9/5/95a42b7da64486a880b30a38413f3cf29312a483
 A
 public/index.html,f/4/f43ecdf8d666ee908aacce037b4cd72159e4741b
+I
+src/redux/config/store.js,4/2/425b46a0050232bbf4127d276694221993b80d14
+L
+src/redux/modules/letters.js,0/b/0bd0036b51896ae573cf61c31ac4dc8db7869f16
+J
+src/redux/modules/modal.js,e/7/e7e7ef66bef8604e0e578b040d9d9736123c87b6
+J
+src/redux/modules/alert.js,5/6/560cf4e4360d71d48459f9a040e7eee055cc79d0
+P
+ src/redux/modules/customAlert.js,7/7/775a73f864f04b232c9d478768ab33166294a9d2

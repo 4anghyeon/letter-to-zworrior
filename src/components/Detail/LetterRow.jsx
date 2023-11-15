@@ -1,33 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
-import {AlertOption, convertDateToDateTimeString, ModalOption, validation} from '../../shared/common';
+import {AlertOption, convertDateToDateTimeString, popup, validation} from '../../shared/common';
 import LetterModalContent from '../Common/LetterModalContent';
 import DetailModalFooter from './DetailModalFooter';
 import DeletePopup from './DeletePopup';
+import {useDispatch} from 'react-redux';
+import {removeLetter, updateLetter} from '../../redux/modules/letters';
+import {showModal} from '../../redux/modules/modal';
+import {hideAlert} from '../../redux/modules/customAlert';
 
-const LetterRow = ({letter, setLetters, setShowModal, setModalOption, makeAlert}) => {
+const LetterRow = ({letter}) => {
   let {content} = letter;
 
+  const dispatch = useDispatch();
   const envelopeCloseImg = require('assets/img/envelope-close.png');
 
-  // 모달에 들어가야할 옵션을 바꿔줌.. 그래야 모달 리렌더링이 일어남
-  const changeModalOption = (content, isEdit) => {
-    setModalOption(
-      new ModalOption(
-        true,
+  const changeModalOption = (content, isEdit, visible) => {
+    dispatch(
+      showModal(
         <LetterModalContent content={content} isEdit={isEdit}></LetterModalContent>,
-        (
-          <DetailModalFooter
-            letter={letter}
-            handleClickDelete={handleClickDelete}
-            handleClickEdit={handleClickEdit}
-            handleClickComplete={handleClickComplete}
-            isEdit={isEdit}
-          ></DetailModalFooter>
-        ),
+        <DetailModalFooter
+          letter={letter}
+          handleClickDelete={handleClickDelete}
+          handleClickEdit={handleClickEdit}
+          handleClickComplete={handleClickComplete}
+          isEdit={isEdit}
+        ></DetailModalFooter>,
         {
           background: '#fff9db',
         },
+        visible,
       ),
     );
   };
@@ -35,63 +37,56 @@ const LetterRow = ({letter, setLetters, setShowModal, setModalOption, makeAlert}
   // 삭제 버튼을 누를 경우 동작하는 이벤트
   const handleClickDelete = () => {
     const handleClick = () => {
-      setLetters(prev => {
-        let findIndex = prev.findIndex(v => v.id === letter.id);
-        let newLetters = [...prev];
-        newLetters.splice(findIndex, 1);
-        return newLetters;
-      });
-
-      setShowModal(false);
-
-      makeAlert(null, new AlertOption(<div>삭제 되었습니다.</div>, {}, 'success'), 800);
+      dispatch(removeLetter(letter.id));
+      changeModalOption(content, false, false);
+      popup(<div>삭제 되었습니다.</div>, {}, AlertOption.SUCCESS, 800, null, dispatch);
     };
 
-    makeAlert(
-      null,
-      new AlertOption(<DeletePopup handleClickYes={handleClick} handleClickNo={() => makeAlert(null, {}, 0)} />, {}),
+    popup(
+      <DeletePopup handleClickYes={handleClick} handleClickNo={() => dispatch(hideAlert())} />,
+      {},
+      AlertOption.SUCCESS,
       Number.POSITIVE_INFINITY,
+      null,
+      dispatch,
     );
   };
 
   // 수정 버튼 누를 경우 동작하는 이벤트
   const handleClickEdit = () => {
-    changeModalOption(content, true);
+    changeModalOption(content, true, true);
   };
 
   // 완료 버튼 누를 경우 동작하는 이벤트
   const handleClickComplete = () => {
     const $textarea = document.getElementById('content');
 
-    if (!validation($textarea.value, letter.from, makeAlert)) return;
+    if (!validation($textarea.value, letter.from, dispatch)) return;
 
     if (content === $textarea.value) {
-      makeAlert(
-        () => {
-          changeModalOption($textarea.value, false);
-        },
-        new AlertOption(<div>수정 사항이 없습니다.</div>, {}, 'warn'),
+      popup(
+        <div>수정 사항이 없습니다.</div>,
+        {},
+        AlertOption.WARN,
         800,
+        () => {
+          changeModalOption($textarea.value, false, true);
+        },
+        dispatch,
       );
+
       return;
     }
 
-    setLetters(prev => {
-      let findIndex = prev.findIndex(v => v.id === letter.id);
-      let newLetter = {...prev[findIndex], ...{content: $textarea.value}};
-      let newLetters = [...prev];
-      newLetters.splice(findIndex, 1, newLetter);
-      return newLetters;
-    });
-    changeModalOption($textarea.value, false);
+    dispatch(updateLetter(letter.id, $textarea.value));
+    changeModalOption($textarea.value, false, true);
     content = $textarea.value;
   };
 
   // 편지 Row를 클릭할 경우
   // 모달 창 OPEN, EventBinding
   const handleClickLetter = () => {
-    setShowModal(true);
-    changeModalOption(content, false);
+    changeModalOption(content, false, true);
   };
 
   return (

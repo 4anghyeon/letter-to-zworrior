@@ -1,12 +1,15 @@
 import React, {useEffect, useRef} from 'react';
 import {useParams} from 'react-router-dom';
-import {Letter, warriors} from '../shared/data';
+import {warriors} from '../shared/data';
 import styled from 'styled-components';
 import LetterRow from '../components/Detail/LetterRow';
-import {AlertOption, MAX_FROM_NAME_LENGTH, ModalOption, validation} from '../shared/common';
+import {AlertOption, MAX_FROM_NAME_LENGTH, popup, validation} from '../shared/common';
 import LetterModalContent from '../components/Common/LetterModalContent';
+import {useDispatch, useSelector} from 'react-redux';
+import {addLetter} from '../redux/modules/letters';
+import {showModal} from '../redux/modules/modal';
 
-const Detail = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) => {
+const Detail = () => {
   const params = useParams();
   const nameRef = useRef(null); // 캐릭터 이름
   const fromNameRef = useRef(null); // 쓰는 사람 이름
@@ -15,6 +18,9 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) 
   const image = require(`assets/img/${name.replace(/\s/g, '')}.png`);
 
   const timeoutIds = [];
+
+  const letters = useSelector(state => state.letters);
+  const dispatch = useDispatch();
 
   // 글자 하나씩 표시
   useEffect(() => {
@@ -50,44 +56,32 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) 
     const $content = document.getElementById('content');
     const contentValue = $content.value;
 
-    if (!validation(contentValue, fromNameRef.current.value, makeAlert)) return;
+    if (!validation(contentValue, fromNameRef.current.value, dispatch)) return;
 
-    let newLetters = [...letters];
-    newLetters.push(new Letter(name, fromNameRef.current.value, contentValue));
-    setLetters(newLetters);
-    setShowModal(false);
+    dispatch(addLetter(name, fromNameRef.current.value, contentValue));
+    dispatch(showModal(null, null, {}, false));
 
-    makeAlert(
-      () => {
-        setTimeout(() => setModalOption(new ModalOption()));
-      },
-      new AlertOption(<div>등록 되었습니다.</div>, {}, 'success'),
-      500,
-    );
+    popup(<div>등록 되었습니다.</div>, {}, AlertOption.SUCCESS, 500, null, dispatch);
   };
 
   // 메시지 쓰기 이벤트
   const onClickWriteButton = () => {
-    setModalOption(
-      new ModalOption(
-        true,
+    dispatch(
+      showModal(
         <LetterModalContent content="" isEdit={true}></LetterModalContent>,
-        (
-          <ModalButtonContainer>
-            <ModalEnrollButton onClick={onClickEnrollButton}>등록</ModalEnrollButton>
-            <div>
-              <label htmlFor="fromName">From.</label>
-              <input id="fromName" ref={fromNameRef} placeholder={`최대 ${MAX_FROM_NAME_LENGTH}자 까지 가능 합니다.`} />
-            </div>
-          </ModalButtonContainer>
-        ),
+        <ModalButtonContainer>
+          <ModalEnrollButton onClick={onClickEnrollButton}>등록</ModalEnrollButton>
+          <div>
+            <label htmlFor="fromName">From.</label>
+            <input id="fromName" ref={fromNameRef} placeholder={`최대 ${MAX_FROM_NAME_LENGTH}자 까지 가능 합니다.`} />
+          </div>
+        </ModalButtonContainer>,
         {
           background: '#fff9db',
         },
+        true,
       ),
     );
-
-    setShowModal(true);
   };
 
   const filtered = letters.filter(letter => letter.to === name);
@@ -108,14 +102,7 @@ const Detail = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) 
           </EmptyContainer>
         )}
         {filtered.map(letter => (
-          <LetterRow
-            key={letter.id}
-            letter={letter}
-            setLetters={setLetters}
-            setShowModal={setShowModal}
-            setModalOption={setModalOption}
-            makeAlert={makeAlert}
-          />
+          <LetterRow key={letter.id} letter={letter} />
         ))}
         <WriteButton onClick={onClickWriteButton}>📝</WriteButton>
       </LetterListContainer>

@@ -1,22 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import LetterRow from '../Detail/LetterRow';
+import {useSelector} from 'react-redux';
 
-const AllLetterContainer = ({letters, setLetters, setShowModal, setModalOption, makeAlert}) => {
+const AllLetterContainer = () => {
+  const letters = useSelector(state => state.letters);
+
   return (
     <AllLetterSection>
       <LetterContainer>
         {letters.map(letter => {
-          return (
-            <LetterRow
-              key={letter.id}
-              letter={letter}
-              setLetters={setLetters}
-              setShowModal={setShowModal}
-              setModalOption={setModalOption}
-              makeAlert={makeAlert}
-            />
-          );
+          return <LetterRow key={letter.id} letter={letter} />;
         })}
       </LetterContainer>
     </AllLetterSection>

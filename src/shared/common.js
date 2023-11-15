@@ -1,20 +1,24 @@
+import {hideAlert, showAlert} from '../redux/modules/customAlert';
+
 export const MAX_LETTER_LENGTH = 200;
 export const MAX_FROM_NAME_LENGTH = 20;
 
 export class ModalOption {
-  constructor(showHeader, contentElem, footerElem, styleOption) {
+  constructor(showHeader, contentElem, footerElem, styleOption, visible) {
     this.showHeader = showHeader;
     this.contentElem = contentElem;
     this.footerElem = footerElem;
     this.styleOption = styleOption;
+    this.visible = visible;
   }
 }
 
 export class AlertOption {
-  constructor(contentElem, styleOption, type) {
+  constructor(contentElem, styleOption, type, visible) {
     this.contentElem = contentElem;
     this.styleOption = styleOption;
     this.type = type;
+    this.visible = visible;
   }
 
   static WARN = 'warn';
@@ -36,33 +40,46 @@ export const convertDateToDateTimeString = arg => {
 };
 
 // 입력값 검증
-export const validation = (contentValue, fromNameValue, makeAlert) => {
+export const validation = (contentValue, fromNameValue, dispatch) => {
   if (contentValue.length === 0) {
-    makeAlert(null, new AlertOption(<div>편지 내용을 입력해주세요.</div>, {}, AlertOption.FAIL), 1000);
+    popup(<div>편지 내용을 입력해주세요.</div>, {}, AlertOption.FAIL, 1000, null, dispatch);
     return false;
   }
 
   if (fromNameValue.length === 0) {
-    makeAlert(null, new AlertOption(<div>보내는 이를 입력해주세요.</div>, {}, AlertOption.FAIL), 1000);
+    popup(<div>보내는 이를 입력해주세요.</div>, {}, AlertOption.FAIL, 1000, null, dispatch);
     return false;
   }
 
   if (contentValue.length > MAX_LETTER_LENGTH) {
-    makeAlert(
-      null,
-      new AlertOption(<div>편지 내용은 {MAX_LETTER_LENGTH}자를 넘을 수 없습니다.</div>, {}, AlertOption.FAIL),
-      1000,
-    );
+    popup(<div>편지 내용은 {MAX_LETTER_LENGTH}자를 넘을 수 없습니다.</div>, {}, AlertOption.FAIL, 1000, null, dispatch);
     return false;
   }
 
   if (fromNameValue.length > MAX_FROM_NAME_LENGTH) {
-    makeAlert(
-      null,
-      new AlertOption(<div>보내는 이름은 {MAX_FROM_NAME_LENGTH}자를 넘을 수 없습니다.</div>, {}, AlertOption.FAIL),
+    popup(
+      <div>보내는 이름은 {MAX_FROM_NAME_LENGTH}자를 넘을 수 없습니다.</div>,
+      {},
+      AlertOption.FAIL,
       1000,
+      null,
+      dispatch,
     );
     return false;
   }
   return true;
+};
+
+export const popup = (content, styleOption, type, millis, cb, dispatch) => {
+  setTimeout(() => {
+    dispatch(showAlert(content, styleOption, type));
+    if (cb) cb();
+
+    console.log(content, styleOption, type, millis);
+    if (millis !== Number.POSITIVE_INFINITY) {
+      setTimeout(() => {
+        dispatch(hideAlert(content, styleOption, type));
+      }, millis);
+    }
+  });
 };
