@@ -15,8 +15,8 @@ const Detail = () => {
   const nameRef = useRef(null); // 캐릭터 이름
   const fromNameRef = useRef(null); // 쓰는 사람 이름
 
-  const {name, separatedName} = warriors.find(d => +d.id === +params.id);
-  const image = require(`assets/img/${name.replace(/\s/g, '')}.png`);
+  const {name, separatedName, enName} = warriors.find(d => +d.id === +params.id);
+  const image = require(`assets/img/${enName.replace(/\s/g, '')}.png`);
 
   const timeoutIds = [];
 
