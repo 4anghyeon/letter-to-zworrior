@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
 const CharacterCard = ({character}) => {
-  const {id, name} = character;
-  const image = require(`assets/img/베지터.png`);
+  const {id, name, enName} = character;
+  const image = require(`assets/img/${enName.replace(/\s/g, '')}.png`);
 
   return (
     <Card name={name}>
