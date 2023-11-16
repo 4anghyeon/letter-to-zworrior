@@ -6,8 +6,6 @@ import {useSelector} from 'react-redux';
 const Alert = () => {
   const alertOption = useSelector(state => state.customAlert);
 
-  console.log(alertOption);
-
   return (
     <AlertContainer $show={alertOption.visible} style={alertOption.styleOption}>
       <MessageDiv>

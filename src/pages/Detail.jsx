@@ -60,7 +60,7 @@ const Detail = () => {
 
     if (!validation(contentValue, fromNameRef.current.value, popup)) return;
 
-    dispatch(addLetter(name, fromNameRef.current.value, contentValue));
+    dispatch(addLetter(name, contentValue, fromNameRef.current.value));
     dispatch(showModal(null, null, {}, false));
 
     popup(<div>등록 되었습니다.</div>, {}, AlertOption.SUCCESS, 800, null);

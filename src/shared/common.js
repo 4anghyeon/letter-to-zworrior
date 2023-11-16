@@ -1,5 +1,3 @@
-import {usePopup} from './hooks';
-
 export const MAX_LETTER_LENGTH = 200;
 export const MAX_FROM_NAME_LENGTH = 20;
 
