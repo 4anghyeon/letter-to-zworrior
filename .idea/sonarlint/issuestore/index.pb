@@ -33,18 +33,12 @@ O
 src/index.js,f/9/f900edc44cb929c2267a16100a32851f6d5b477d
 A
 src/setupTests.js,b/7/b7e8d8f421068b8d51c89805d2035e747be2ff17
-=
-src/index.css,c/5/c5d38a62d1faae90a2acaa34b79a7ef365c917e4
-=
-src/reset.css,2/5/25a3ca7072ec2a5e8c55b4253ba62ab41bdf1c89
 S
 #src/components/Detail/LetterRow.jsx,1/b/1be60e0f9501ebf169cf38c3971d427d0ebf0428
 P
  src/components/Layout/Footer.jsx,2/d/2da09daaca0f656ad7fecaa518578eaaa64f39ca
 ;
 .prettierrc,2/0/20137a9e94744624390b6748bc96df5ca1579b71
-Y
-)src/components/Home/AllLetterContainer.js,8/8/88721632349390119b1eeec98731f9e51ff19854
 Z
 *src/components/Home/AllLetterContainer.jsx,d/6/d616eb83e4e647d80c1582e30df6670b4449fc7b
 K
@@ -63,9 +57,16 @@ L
 src/redux/modules/letters.js,0/b/0bd0036b51896ae573cf61c31ac4dc8db7869f16
 J
 src/redux/modules/modal.js,e/7/e7e7ef66bef8604e0e578b040d9d9736123c87b6
-J
-src/redux/modules/alert.js,5/6/560cf4e4360d71d48459f9a040e7eee055cc79d0
 P
  src/redux/modules/customAlert.js,7/7/775a73f864f04b232c9d478768ab33166294a9d2
 C
 src/shared/hooks.js,3/3/33a39286d2a7e41eba2690125475a8a6ace7527e
+?
+src/App.test.js,9/2/923703ced91ac38943d37930d9d27a7ebe8f01ad
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
+<
+package.json,7/0/7030d0b2f71b999ff89a343de08c414af32fc93a
+B
+src/style/theme.js,9/1/91a63bb0933a40c5cece50c7658159f110a57d49
