@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 
 const CharacterCard = ({character}) => {
   const {id, name} = character;
-  const image = require(`assets/img/${name.replace(/\s/g, '')}.png`);
+  const image = require(`assets/img/베지터.png`);
 
   return (
     <Card name={name}>
