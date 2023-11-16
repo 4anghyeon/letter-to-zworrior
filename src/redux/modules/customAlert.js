@@ -28,7 +28,6 @@ const customAlert = (state = initialState, action) => {
     case SHOW:
       return {...state, ...action.option, ...{visible: true}};
     case HIDE:
-      console.log('hide');
       return {...state, ...action.option, ...{visible: false}};
     default:
       return state;
